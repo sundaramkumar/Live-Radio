@@ -1,0 +1,70 @@
+Ref: https://www.youtube.com/watch?v=9TNyOvmQ0vw
+
+https://freeradiolinks.wordpress.com/2020/02/15/classic-fm/
+https://radiotamilonline.com/
+
+- https://fmstream.org/index.php?c=IND
+- https://github.com/mikepierce/internet-radio-streams
+- search for Radio live stream url github
+
+https://tamilhdradios.com/
+https://www.fmlist.org/ul_login.php
+
+SiiNunit
+{
+live_stream_def : \_nameless.25e.2cc5.8720 {
+stream_data: 284
+stream_data[0]: "http://usa15.fastcast4u.com:8487/; 1|Friends Tamil|Tamil|128|0|0"
+stream_data[1]: "http://s6.voscast.com:10014/;|Tamil Media|Tamil|128|0|0"
+stream_data[2]: "http://s3.voscast.com:8402/;|Varn FM|Tamil|128|0|0"
+stream_data[3]: "http://live.tamilkuyilradio.com:8095/;|Tamilkuyil|Tamil|128|0|0"
+stream_data[4]: "http://31.14.40.150:9000/;|Tamil FM|Tamil|128|0|0"
+stream_data[5]: "http://142.44.241.222:9302/;|Radio Benziger|Kollam KL|128|0|0"
+stream_data[6]: "http://www.s1.cmesolution.my:8808/;|Tamil Maalai Com|Tamil|128|0|0"
+stream_data[7]: "http://103.16.47.70:9555/;|Hungama Tamil|Tamil|128|0|0"
+stream_data[8]: "http://hyades.shoutca.st:8717/;|Tamil|Tamil|128|0|0"
+stream_data[9]: "https://prclive4.listenon.in|Radio City|Kannada|128|0|0"
+
+}
+
+}
+
+- https://gist.github.com/palaniraja/5607053
+
+Source: https://www.tamilradios.com
+
+Hello FM 106.4
+http://163.172.158.94:8048/;stream.mp3
+
+Radio Mirchi FM 98.3
+http://163.172.158.94:8052/;stream.mp3
+
+Big FM 92.7
+http://163.172.158.94:8062/;stream.mp3
+
+Chennai FM Rainbow
+http://163.172.158.94:8066/;stream.mp3
+
+Radio City Live 91.1
+http://163.172.158.94:8064/;stream.mp3
+
+---
+
+Sooriyan FM
+http://104.238.193.114:7077/;stream.mp3
+
+Tamil FM 89.4 - UAE
+http://31.14.40.149:8000/;stream.mp3
+
+Tamilisai FM - UK
+http://185.193.112.155:18244/;stream.mp3
+
+Lankasri FM - UK
+http://media2.lankasri.fm/;stream.mp3
+
+Yarl FM Radio - Sri Lanka
+http://s2.voscast.com:9544/;stream.mp3
+
+Siragugal Radio
+http://149.56.147.197:8792/stream
+A new Flutter project.
