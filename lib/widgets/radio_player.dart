@@ -1,0 +1,145 @@
+import 'package:flutter/material.dart';
+import 'package:live_radio/apis/radio_api.dart';
+import 'package:live_radio/providers/radio_provider.dart';
+import 'package:live_radio/widgets/radio_list.dart';
+import 'package:provider/provider.dart';
+
+class RadioPlayer extends StatefulWidget {
+  const RadioPlayer({super.key});
+
+  @override
+  State<RadioPlayer> createState() => _RadioPlayerState();
+}
+
+class _RadioPlayerState extends State<RadioPlayer>
+    with SingleTickerProviderStateMixin {
+  late AnimationController animationController;
+
+  late Animation<Offset> radioOffset;
+  late Animation<Offset> radioListOffset;
+
+  bool listEnabled = false;
+  bool isPlaying = true;
+  // var stationName = '';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
+
+    radioListOffset = Tween(begin: const Offset(0, 1), end: Offset.zero)
+        .animate(CurvedAnimation(
+            parent: animationController, curve: Curves.easeOut));
+
+    radioOffset = Tween(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+        CurvedAnimation(parent: animationController, curve: Curves.easeOut));
+
+    RadioApi.player.stateStream.listen((event) {
+      setState(() {
+        isPlaying = event;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // var stationName = '';
+    final provider = Provider.of<RadioProvider>(context, listen: true);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+            child: SlideTransition(
+          position: radioOffset,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                  height: 200,
+                  width: 200,
+                  color: Colors.transparent,
+                  child: Consumer<RadioProvider>(
+                      builder: ((context, value, child) {
+                    var photoURL = value.station.photoURL == ''
+                        ? Image.asset('assets/radio.png',
+                            width: 30, height: 30, fit: BoxFit.cover)
+                        : Image.network(value.station.photoURL,
+                            width: 50, height: 50, fit: BoxFit.cover);
+                    // stationName = value.station.name; // RadioProvider.getRadioStation(value.station);
+                    return photoURL;
+                  }))),
+              Text(provider.station.name),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      listEnabled = !listEnabled;
+                    });
+                    switch (animationController.status) {
+                      case AnimationStatus.dismissed:
+                        animationController.forward();
+                        break;
+                      case AnimationStatus.completed:
+                        animationController.reverse();
+                        break;
+                      default:
+                    }
+                  },
+                  color: listEnabled ? Colors.amber : Colors.white,
+                  iconSize: 20,
+                  icon: Icon(Icons.list),
+                ),
+                IconButton(
+                  onPressed: () async {
+                    isPlaying ? RadioApi.player.stop() : RadioApi.player.play();
+                  },
+                  color: Colors.white,
+                  iconSize: 20,
+                  icon: Icon(isPlaying ? Icons.stop : Icons.play_arrow),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  color: Colors.white,
+                  iconSize: 20,
+                  icon: Icon(Icons.volume_up),
+                )
+              ]),
+            ],
+          ),
+        )),
+        SlideTransition(
+          position: radioListOffset,
+          child: Container(
+            height: 300,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+                color: Colors.white54,
+                borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(
+                  40,
+                ))),
+            child: const Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Radio List',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Divider(
+                  color: Colors.black,
+                  indent: 30,
+                  endIndent: 30,
+                ),
+                Expanded(child: RadioList())
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
