@@ -1,7 +1,14 @@
-# live_radio
+# Live Radio
 
-- To get started checkout and do
-  flutter pub get
+## To get started clone the repo and do
+
+- flutter pub get
+
+## TODO
+
+add filters by language
+scroll album/artists info
+fetch artwork from player api
 
 ## Getting Started
 

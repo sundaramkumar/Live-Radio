@@ -20,8 +20,6 @@ class RadioApi {
 
   static Future<void> changeStation(RadioStation station) async {
     await player.stop();
-    print(station.name);
-    print(station.streamURL);
     await player.setChannel(title: station.name, url: station.streamURL);
 
     await player.play();

@@ -56,6 +56,7 @@ class _RadioListState extends State<RadioList> {
             onTap: () async {
               provider.setRadioStation(station);
               SharedPrefsApi.setStation(station);
+              // print(SharedPrefsApi.filterStations('English'));
               await RadioApi.changeStation(station);
               setState(() {
                 selectedStation = station;

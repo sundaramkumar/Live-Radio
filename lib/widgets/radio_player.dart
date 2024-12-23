@@ -20,6 +20,9 @@ class _RadioPlayerState extends State<RadioPlayer>
 
   bool listEnabled = false;
   bool isPlaying = true;
+  List metadata = [];
+  String artists = '';
+
   // var stationName = '';
   @override
   void initState() {
@@ -41,12 +44,32 @@ class _RadioPlayerState extends State<RadioPlayer>
         isPlaying = event;
       });
     });
+    RadioApi.player.metadataStream.listen((value) {
+      setState(() {
+        artists = '';
+        metadata = value;
+        for (int i = 0; i < metadata.length - 1; i++) {
+          artists += metadata[i] + ', ';
+        }
+        // [Karthik, MassTamilan.com, Kanimozhiye, MassTamilan.com, &artist=Karthik - MassTamilan.com&album= Irandam Ulagam - MassTamilan.com]
+        //&artist=Vijay Prakash%2C Chinmayi Sripada%2C SuVi%2C Vijay - MassTamilan.fm&album=Nanban - MassTamilan.fm
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     // var stationName = '';
     final provider = Provider.of<RadioProvider>(context, listen: true);
+    var _tapPosition;
+    void _storePosition(TapDownDetails details) {
+      _tapPosition = details.globalPosition;
+    }
+
+    final overlay = Overlay.of(context).context.findRenderObject();
+    if (overlay == null) {
+      //return 0;
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -54,7 +77,7 @@ class _RadioPlayerState extends State<RadioPlayer>
             child: SlideTransition(
           position: radioOffset,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                   height: 200,
@@ -62,6 +85,7 @@ class _RadioPlayerState extends State<RadioPlayer>
                   color: Colors.transparent,
                   child: Consumer<RadioProvider>(
                       builder: ((context, value, child) {
+                    artists = '';
                     var photoURL = value.station.photoURL == ''
                         ? Image.asset('assets/radio.png',
                             width: 30, height: 30, fit: BoxFit.cover)
@@ -70,7 +94,22 @@ class _RadioPlayerState extends State<RadioPlayer>
                     // stationName = value.station.name; // RadioProvider.getRadioStation(value.station);
                     return photoURL;
                   }))),
-              Text(provider.station.name),
+              Text(
+                provider.station.name,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 20),
+              // show artists info
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                ),
+                child: Text(artists),
+              ),
+              const SizedBox(height: 20),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 IconButton(
                   onPressed: () {
@@ -91,8 +130,58 @@ class _RadioPlayerState extends State<RadioPlayer>
                   iconSize: 20,
                   icon: Icon(Icons.list),
                 ),
+                GestureDetector(
+                  onTap: () => {
+                    showMenu(
+                        context: context,
+                        position: RelativeRect.fromRect(
+                            _tapPosition! &
+                                const Size(
+                                    40, 40), // smaller rect, the touch area
+                            Offset.zero & overlay!.semanticBounds.size),
+                        items: <PopupMenuEntry>[
+                          const PopupMenuItem(
+                              value: 'Tamil',
+                              child: Row(
+                                children: [
+                                  Text('Tamil'),
+                                ],
+                              )),
+                          const PopupMenuItem(
+                              value: 'Hindi',
+                              child: Row(
+                                children: [
+                                  Text('Hindi'),
+                                ],
+                              )),
+                          const PopupMenuItem(
+                              value: 'English',
+                              child: Row(
+                                children: [
+                                  Text('English'),
+                                ],
+                              ))
+                        ]).then((value) {
+                      // filterStationsByLanguage(value);
+                      // if (value == 'Tamil') {
+                      //   filterStationsByLanguage(value);
+                      //   print(value);
+                      // } else if (value == 'Hindi') {
+                      //   print(value);
+                      // } else if (value == 'English') {
+                      //   print(value);
+                      // }
+                    })
+                  },
+                  onTapDown: _storePosition,
+                  child: const Icon(
+                    Icons.filter_alt,
+                    color: Colors.white,
+                  ),
+                ),
                 IconButton(
                   onPressed: () async {
+                    artists = '';
                     isPlaying ? RadioApi.player.stop() : RadioApi.player.play();
                   },
                   color: Colors.white,
