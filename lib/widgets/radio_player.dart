@@ -23,10 +23,17 @@ class _RadioPlayerState extends State<RadioPlayer>
   List metadata = [];
   String artists = '';
 
+  String _filteredLang = "";
+  String get filteredLang => _filteredLang;
+  set filteredLang(String value) {
+    setState(() {
+      _filteredLang = value;
+    });
+  }
+
   // var stationName = '';
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     animationController = AnimationController(
@@ -162,6 +169,7 @@ class _RadioPlayerState extends State<RadioPlayer>
                                 ],
                               ))
                         ]).then((value) {
+                      filteredLang = value;
                       // filterStationsByLanguage(value);
                       // if (value == 'Tamil') {
                       //   filterStationsByLanguage(value);
@@ -209,7 +217,7 @@ class _RadioPlayerState extends State<RadioPlayer>
                     top: Radius.circular(
                   40,
                 ))),
-            child: const Column(
+            child: Column(
               children: [
                 Padding(
                   padding: EdgeInsets.all(8.0),
@@ -223,7 +231,10 @@ class _RadioPlayerState extends State<RadioPlayer>
                   indent: 30,
                   endIndent: 30,
                 ),
-                Expanded(child: RadioList())
+                Expanded(
+                    child: RadioList(
+                  language: filteredLang,
+                )) //
               ],
             ),
           ),

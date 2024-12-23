@@ -7,7 +7,8 @@ import 'package:live_radio/utils/radio_stations.dart';
 import 'package:provider/provider.dart';
 
 class RadioList extends StatefulWidget {
-  const RadioList({super.key});
+  final String language;
+  const RadioList({super.key, required this.language});
 
   @override
   State<RadioList> createState() => _RadioListState();
@@ -16,9 +17,9 @@ class RadioList extends StatefulWidget {
 class _RadioListState extends State<RadioList> {
   late RadioStation selectedStation;
   late RadioProvider provider;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     provider = Provider.of<RadioProvider>(context, listen: false);
     selectedStation = provider.station;
@@ -32,38 +33,44 @@ class _RadioListState extends State<RadioList> {
       itemBuilder: (context, index) {
         final station = RadioStations.allStations[index];
         bool isSelected = station.name == provider.station.name;
+
         var photoURL = station.photoURL == ''
             ? Image.asset('assets/radio.png',
                 width: 30, height: 30, fit: BoxFit.cover)
             : Image.network(station.photoURL,
                 width: 50, height: 50, fit: BoxFit.cover);
-        return Container(
-          decoration: BoxDecoration(
-            gradient: isSelected
-                ? const LinearGradient(colors: [Colors.pink, Colors.deepPurple])
-                : null,
-          ),
-          child: ListTile(
-            leading: photoURL,
-            horizontalTitleGap: 20,
-            title: Text(
-              station.name,
-              style: TextStyle(
-                color: isSelected ? Colors.white : Colors.black,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              ),
+        if (station.language == widget.language) {
+          return Container(
+            decoration: BoxDecoration(
+              gradient: isSelected
+                  ? const LinearGradient(
+                      colors: [Colors.pink, Colors.deepPurple])
+                  : null,
             ),
-            onTap: () async {
-              provider.setRadioStation(station);
-              SharedPrefsApi.setStation(station);
-              // print(SharedPrefsApi.filterStations('English'));
-              await RadioApi.changeStation(station);
-              setState(() {
-                selectedStation = station;
-              });
-            },
-          ),
-        );
+            child: ListTile(
+              leading: photoURL,
+              horizontalTitleGap: 20,
+              title: Text(
+                station.name,
+                style: TextStyle(
+                  color: isSelected ? Colors.white : Colors.black,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
+              onTap: () async {
+                provider.setRadioStation(station);
+                SharedPrefsApi.setStation(station);
+                // print(SharedPrefsApi.filterStations('English'));
+                await RadioApi.changeStation(station);
+                setState(() {
+                  selectedStation = station;
+                });
+              },
+            ),
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
       },
     );
   }
