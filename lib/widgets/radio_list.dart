@@ -28,6 +28,8 @@ class _RadioListState extends State<RadioList> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<RadioProvider>(context, listen: false);
+    RadioStations.allStations
+        .sort((a, b) => a.name.compareTo(b.name)); // sort the stations by name
     return ListView.builder(
       itemCount: RadioStations.allStations.length,
       itemBuilder: (context, index) {
@@ -37,7 +39,7 @@ class _RadioListState extends State<RadioList> {
         var photoURL = station.photoURL == ''
             ? Image.asset('assets/radio.png',
                 width: 30, height: 30, fit: BoxFit.cover)
-            : Image.network(station.photoURL,
+            : Image.asset(station.photoURL,
                 width: 50, height: 50, fit: BoxFit.cover);
         if (station.language == widget.language) {
           return Container(

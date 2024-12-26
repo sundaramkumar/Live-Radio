@@ -88,7 +88,7 @@ class _RadioPlayerState extends State<RadioPlayer>
             children: [
               Container(
                   height: 200,
-                  width: 200,
+                  width: 300,
                   color: Colors.transparent,
                   child: Consumer<RadioProvider>(
                       builder: ((context, value, child) {
@@ -96,8 +96,8 @@ class _RadioPlayerState extends State<RadioPlayer>
                     var photoURL = value.station.photoURL == ''
                         ? Image.asset('assets/radio.png',
                             width: 30, height: 30, fit: BoxFit.cover)
-                        : Image.network(value.station.photoURL,
-                            width: 50, height: 50, fit: BoxFit.cover);
+                        : Image.asset(value.station.photoURL,
+                            width: 50, height: 50, fit: BoxFit.contain);
                     // stationName = value.station.name; // RadioProvider.getRadioStation(value.station);
                     return photoURL;
                   }))),
