@@ -25,6 +25,7 @@ class LiveRadio extends StatelessWidget {
             create: ((context) => RadioProvider(initialStation))),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Live Radio',
         theme: ThemeData(primarySwatch: Colors.blue),
         home: const HomePage(),

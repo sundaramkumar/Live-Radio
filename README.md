@@ -6,9 +6,16 @@
 
 ## TODO
 
-add filters by language
-scroll album/artists info
 fetch artwork from player api
+volume control
+better ui
+border radius for radio station image
+Favourites of radio list
+icons for Previous Next Stations
+
+## generate app icons here
+
+https://www.iconsgenerator.com/Home/AppIcons
 
 ## Getting Started
 

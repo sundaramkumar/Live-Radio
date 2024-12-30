@@ -29,7 +29,7 @@ class RadioStations {
         language: 'Tamil',
         streamURL:
             'https://air.pc.cdn.bitgravity.com/air/live/pbaudio062/chunklist.m3u8',
-        photoURL: 'assets/airtvl.jpg'),
+        photoURL: 'assets/aircoimbatore.jpg'),
     RadioStation(
         name: 'AIR Kodai FM',
         language: 'Tamil',
@@ -106,5 +106,78 @@ class RadioStations {
         streamURL:
             'https://air.pc.cdn.bitgravity.com/air/live/pbaudio024/chunklist.m3u8',
         photoURL: 'assets/VividhBharatiChennai.jpg'),
+    RadioStation(
+        name: 'Tamil Kuyil',
+        language: 'Tamil',
+        streamURL: 'http://live.tamilkuyilradio.com:8095/;',
+        photoURL: 'assets/tamilkuyil.png'),
+    RadioStation(
+        name: 'Tamil Maalai',
+        language: 'Tamil',
+        streamURL: 'http://www.s1.cmesolution.my:8808/;',
+        photoURL: 'assets/tamilmaalai.jpg'),
+    RadioStation(
+        name: 'FM Gold',
+        language: 'Tamil',
+        streamURL:
+            'https://air.pc.cdn.bitgravity.com/air/live/pbaudio021/chunklist.m3u8',
+        photoURL: 'assets/fmgold.jpg'),
+    RadioStation(
+        name: 'AIR Tamil',
+        language: 'Tamil',
+        streamURL:
+            'https://air.pc.cdn.bitgravity.com/air/live/pbaudio025/chunklist.m3u8',
+        photoURL: 'assets/aircoimbatore.jpg'),
+    RadioStation(
+        name: 'AIR Coimbatore',
+        language: 'Tamil',
+        streamURL:
+            'https://air.pc.cdn.bitgravity.com/air/live/pbaudio016/playlist.m3u8',
+        photoURL: 'assets/aircoimbatore.jpg'),
+    RadioStation(
+        name: 'Mohan Hits Radio',
+        language: 'Tamil',
+        streamURL:
+            'https://stream-158.zeno.fm/wkqvzsg1238uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ3a3F2enNnMTIzOHV2IiwiaG9zdCI6InN0cmVhbS0xNTguemVuby5mbSIsInJ0dGwiOjUsImp0aSI6ImY2M1Uta1Y5U2UtTE9sVGlHVExpZXciLCJpYXQiOjE3MzUzMTE3NTksImV4cCI6MTczNTMxMTgxOX0.9qVCM-8HvNlFr5yKnvvbvCJGRlAy2A_19_A31y0vESE',
+        photoURL: 'assets/mohan.jpg'),
+    RadioStation(
+        name: 'Vijay Radio Online',
+        language: 'Tamil',
+        streamURL:
+            'https://stream-153.zeno.fm/3w6g61p7pa0uv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiIzdzZnNjFwN3BhMHV2IiwiaG9zdCI6InN0cmVhbS0xNTMuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6IjZFVG1nU3pZUjJPTktMeUs3TDg3NWciLCJpYXQiOjE3MzUzMTE4ODcsImV4cCI6MTczNTMxMTk0N30.xUNP4orOlX-V2nx6vDE0u4Q_CQkUe_jQ_ffmEun7U_A',
+        photoURL: 'assets/vijayradio.jpg'),
+    RadioStation(
+        name: 'GV Prakash Online',
+        language: 'Tamil',
+        streamURL:
+            'https://stream-174.zeno.fm/d5skwct7hqzuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJkNXNrd2N0N2hxenV2IiwiaG9zdCI6InN0cmVhbS0xNzQuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6InNvd3RMd0dnU3NpVzZFS1JhNjZUOVEiLCJpYXQiOjE3MzUzMTE5NjMsImV4cCI6MTczNTMxMjAyM30.2Sb0jW_NQ9mjvm4jOj_iif__ZtisA5F4xu_dRyK3WaQ',
+        photoURL: 'assets/gvprakash.jpg'),
+    RadioStation(
+        name: 'IBC Tamil',
+        language: 'Tamil',
+        streamURL:
+            'https://stream-174.zeno.fm/d5skwct7hqzuv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJkNXNrd2N0N2hxenV2IiwiaG9zdCI6InN0cmVhbS0xNzQuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6InNvd3RMd0dnU3NpVzZFS1JhNjZUOVEiLCJpYXQiOjE3MzUzMTE5NjMsImV4cCI6MTczNTMxMjAyM30.2Sb0jW_NQ9mjvm4jOj_iif__ZtisA5F4xu_dRyK3WaQ',
+        photoURL: 'assets/ibctamil.jpg'),
+    RadioStation(
+        name: 'Bombay Beats Radio',
+        language: 'Hindi',
+        streamURL: 'https://strmreg.1.fm/bombaybeats_mobile_mp3',
+        photoURL: 'assets/bombaybeats.jpg'),
+    RadioStation(
+        name: 'Lata Mangeshkar Radio',
+        language: 'Hindi',
+        streamURL: 'https://stream.zeno.fm/87xam8pf7tzuv',
+        photoURL: 'assets/latamangeshkarradio.jpg'),
+    RadioStation(
+        name: 'Shreya Ghosal Bollywood Radio',
+        language: 'Hindi',
+        streamURL:
+            'https://drive.uber.radio/uber/bollywoodshreyaghosal/icecast.audio',
+        photoURL: 'assets/shreyaghosal.jpg'),
+    RadioStation(
+        name: 'Bolly Hits radio net Radio',
+        language: 'Hindi',
+        streamURL: 'https://a4.siar.us/listen/bollyhitsradionet/stream',
+        photoURL: 'assets/bollyhitsradionet.jpg'),
   ];
 }

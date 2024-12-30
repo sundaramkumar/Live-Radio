@@ -4,6 +4,7 @@ import 'package:live_radio/apis/shared_prefs_api.dart';
 import 'package:live_radio/models/radio_station_model.dart';
 import 'package:live_radio/providers/radio_provider.dart';
 import 'package:live_radio/utils/radio_stations.dart';
+import 'package:live_radio/widgets/radio_player.dart';
 import 'package:provider/provider.dart';
 
 class RadioList extends StatefulWidget {
@@ -41,6 +42,7 @@ class _RadioListState extends State<RadioList> {
                 width: 30, height: 30, fit: BoxFit.cover)
             : Image.asset(station.photoURL,
                 width: 50, height: 50, fit: BoxFit.cover);
+        // filter the stations based on the language
         if (station.language == widget.language) {
           return Container(
             decoration: BoxDecoration(
@@ -62,6 +64,7 @@ class _RadioListState extends State<RadioList> {
               onTap: () async {
                 provider.setRadioStation(station);
                 SharedPrefsApi.setStation(station);
+                SharedPrefsApi.currentStation = station.name;
                 // print(SharedPrefsApi.filterStations('English'));
                 await RadioApi.changeStation(station);
                 setState(() {

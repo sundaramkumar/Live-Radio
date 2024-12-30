@@ -36,7 +36,10 @@ dependencies:
   cupertino_icons: ^1.0.8
   provider: ^6.1.2
   shared_preferences: ^2.3.3
-  radio_player: ^1.7.0
+  collection: ^1.19.0
+  text_scroll: ^0.2.0
+  radio_player: ^1.5.0
+  volume_controller: ^3.0.1
 
 dev_dependencies:
   flutter_test:

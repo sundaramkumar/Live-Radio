@@ -7,9 +7,14 @@ class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GradientBg(
-        child: FutureBuilder(
+    return Container(
+      //background image
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/radiobg.jpg"), fit: BoxFit.fill)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: FutureBuilder(
             future: RadioApi.initPlayer(context),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
