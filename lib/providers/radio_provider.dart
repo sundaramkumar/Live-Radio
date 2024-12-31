@@ -17,10 +17,4 @@ class RadioProvider with ChangeNotifier {
     // _stationName = station.name;
     notifyListeners();
   }
-
-  // static getRadioStation(station) {
-  //   // _station = station;
-  //   return station.name;
-  //   // notifyListeners();
-  // }
 }

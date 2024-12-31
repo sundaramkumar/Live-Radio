@@ -10,6 +10,65 @@ https://radiotamilonline.com/
 https://tamilhdradios.com/
 https://www.fmlist.org/ul_login.php
 
+Tamilaruvi
+ https://radiosindia.com/tamilretrofm.html
+
+https://radiosindia.com/radiomadurai.html
+
+https://radiosindia.com/radiobeatretro.html
+
+Raaga fm
+https://radiosindia.com/raagafm.html : https://listen.openstream.co/7044/audio
+
+SLBC Tamil national service
+https://radiosindia.com/slbctamil.html : https://www.liveradio.es/http://220.247.227.6:8000/Tnsstream
+
+Sooriyan FM
+https://radiosindia.com/sooriyanfm.html : https://radio.lotustechnologieslk.net:8006/;stream.mp3
+
+SPB Hits
+https://onlineradiofm.in/stations/city-s.p.-balasubrahmanyam-hits : https://stream.zeno.fm/9adkzdcqi4jvv
+
+Bakthi FM
+https://www.tamilradios.com/bakthi-fm: https://www.liveradio.es/http://listen.shoutcast.com/bakthi
+
+OM Radio
+https://www.tamilradios.com/om-radio : https://playerservices.streamtheworld.com/api/livestream-redirect/OMRADIO_S01AAC_SC
+
+Sivan Koil Bakthi FM
+https://www.tamilradios.com/sivan_kovil_bakthi_fm : https://stream.zeno.fm/hm9s230a4qzuv
+
+Arulvakku FM (christian )
+https://www.tamilradios.com/arulvakku-fm : https://stream.arulvakku.com/radio/8000/radio.mp3
+
+BIG FM
+https://www.tamilradios.com/big-fm-chennai-online : https://www.liveradio.es/http://tamil.crabdance.com:8002/4
+
+Thuthi FM
+https://radiosindia.com/thuthifm.html : https://streams.radio.co/s790fe269d/listen
+
+Nagore EM Hanifa Radio
+https://tamilradios.net/devotional/ : https://stream.zenolive.com/y8sz1kfdy4zuv.aac
+
+
+Vaariyar Radio
+https://tamilradios.net/devotional/ : https://stream.zenolive.com/su1uch6mb2zuv.aac
+
+Dheen Osai Radio
+https://tamilradios.net/devotional/ : https://stream.zenolive.com/1q8nqmk8fwzuv.aac
+
+
+
+
+
+
+
+
+
+
+
+
+
 SiiNunit
 {
 live_stream_def : \_nameless.25e.2cc5.8720 {

@@ -79,6 +79,7 @@ class _RadioPlayerState extends State<RadioPlayer>
         for (int i = 0; i < metadata.length - 1; i++) {
           artists += metadata[i] + ', ';
         }
+        // sample artists info
         // [Karthik, MassTamilan.com, Kanimozhiye, MassTamilan.com, &artist=Karthik - MassTamilan.com&album= Irandam Ulagam - MassTamilan.com]
         //&artist=Vijay Prakash%2C Chinmayi Sripada%2C SuVi%2C Vijay - MassTamilan.fm&album=Nanban - MassTamilan.fm
       });
@@ -325,26 +326,49 @@ class _RadioPlayerState extends State<RadioPlayer>
                                   Offset.zero & overlay!.semanticBounds.size),
                               items: <PopupMenuEntry>[
                                 const PopupMenuItem(
-                                    value: 'Tamil',
+                                  value: 'Devotional',
+                                  child: SizedBox(
+                                    height: 22, // Set the desired height here
                                     child: Row(
                                       children: [
-                                        Text('Tamil'),
+                                        Text('Devotional'),
                                       ],
-                                    )),
+                                    ),
+                                  ),
+                                ),
                                 const PopupMenuItem(
-                                    value: 'Hindi',
-                                    child: Row(
-                                      children: [
-                                        Text('Hindi'),
-                                      ],
-                                    )),
-                                const PopupMenuItem(
-                                    value: 'English',
+                                  value: 'English',
+                                  child: SizedBox(
+                                    height: 22, // Set the desired height here
                                     child: Row(
                                       children: [
                                         Text('English'),
                                       ],
-                                    ))
+                                    ),
+                                  ),
+                                ),
+                                const PopupMenuItem(
+                                  value: 'Hindi',
+                                  child: SizedBox(
+                                    height: 22, // Set the desired height here
+                                    child: Row(
+                                      children: [
+                                        Text('Hindi'),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const PopupMenuItem(
+                                  value: 'Tamil',
+                                  child: SizedBox(
+                                    height: 22, // Set the desired height here
+                                    child: Row(
+                                      children: [
+                                        Text('Tamil'),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ]).then((value) {
                             filteredLang = value;
                           })

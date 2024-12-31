@@ -3,6 +3,47 @@ import 'package:live_radio/models/radio_station_model.dart';
 class RadioStations {
   static List<RadioStation> allStations = [
     RadioStation(
+        name: 'Big FM',
+        language: 'Tamil',
+        streamURL: 'https://www.liveradio.es/http://tamil.crabdance.com:8002/4',
+        photoURL: 'assets/big-fm-chennai-online.jpg'),
+    RadioStation(
+        name: 'SPB Hits',
+        language: 'Tamil',
+        streamURL: 'https://stream.zeno.fm/9adkzdcqi4jvv',
+        photoURL: 'assets/spbhits.png'),
+    RadioStation(
+        name: 'Sooriyan FM',
+        language: 'Tamil',
+        streamURL: 'https://radio.lotustechnologieslk.net:8006/;stream.mp3',
+        photoURL: 'assets/sooryanfm.jpg'),
+    RadioStation(
+        name: 'SLBC Tamil National Service',
+        language: 'Tamil',
+        streamURL:
+            'https://www.liveradio.es/http://220.247.227.6:8000/Tnsstream',
+        photoURL: 'assets/slbctamil.jpg'),
+    RadioStation(
+        name: 'Raaga FM',
+        language: 'Tamil',
+        streamURL: 'https://listen.openstream.co/7044/audio',
+        photoURL: 'assets/raagafm.jpg'),
+    RadioStation(
+        name: 'Radio Beat Retro',
+        language: 'Tamil',
+        streamURL: 'https://www.liveradio.es/http://5.63.151.52:7142/stream',
+        photoURL: 'assets/radiobeatretro.jpg'),
+    RadioStation(
+        name: 'Tamil Retro FM',
+        language: 'Tamil',
+        streamURL: 'https://spserver.sscast2u.in/retrofmtamil/stream',
+        photoURL: 'assets/tamilretrofm.jpg'),
+    RadioStation(
+        name: 'Radio Madurai',
+        language: 'Tamil',
+        streamURL: 'https://stream.zeno.fm/1ycmepnthkhvv',
+        photoURL: 'assets/radiomadurai.jpg'),
+    RadioStation(
         name: 'Kodai Ragam',
         language: 'Tamil',
         streamURL: 'https://sp.radiotamilonline.com/8006/stream',
@@ -179,5 +220,47 @@ class RadioStations {
         language: 'Hindi',
         streamURL: 'https://a4.siar.us/listen/bollyhitsradionet/stream',
         photoURL: 'assets/bollyhitsradionet.jpg'),
+    RadioStation(
+        name: 'Dheen Osai Radio',
+        language: 'Devotional',
+        streamURL: 'https://stream.zenolive.com/1q8nqmk8fwzuv.aac',
+        photoURL: 'assets/dheen-osai-radio.jpg'),
+    RadioStation(
+        name: 'Vaariyar Radio',
+        language: 'Devotional',
+        streamURL: 'https://stream.zenolive.com/su1uch6mb2zuv.aac',
+        photoURL: 'assets/vaariyaar-radio.jpg'),
+    RadioStation(
+        name: 'Nagore EM Hanifa Radio',
+        language: 'Devotional',
+        streamURL: 'https://stream.zenolive.com/y8sz1kfdy4zuv.aac',
+        photoURL: 'assets/nagore-em-hanifa-radio.jpg'),
+    RadioStation(
+        name: 'Thuthi FM',
+        language: 'Devotional',
+        streamURL: 'https://streams.radio.co/s790fe269d/listen',
+        photoURL: 'assets/thuthifm.jpg'),
+    RadioStation(
+        name: 'Arulvakku (christian) FM',
+        language: 'Devotional',
+        streamURL: 'https://stream.arulvakku.com/radio/8000/radio.mp3',
+        photoURL: 'assets/arulvakku-fm.jpg'),
+    RadioStation(
+        name: 'Sivan Koil Bakthi FM',
+        language: 'Devotional',
+        streamURL: 'https://stream.zeno.fm/hm9s230a4qzuv',
+        photoURL: 'assets/sivan_kovil_bakthi_fm.jpg'),
+    RadioStation(
+        name: 'Om Radio',
+        language: 'Devotional',
+        streamURL:
+            'https://playerservices.streamtheworld.com/api/livestream-redirect/OMRADIO_S01AAC_SC',
+        photoURL: 'assets/om-radio.jpg'),
+    RadioStation(
+        name: 'Bakthi FM',
+        language: 'Devotional',
+        streamURL:
+            'https://www.liveradio.es/http://listen.shoutcast.com/bakthi',
+        photoURL: 'assets/bakthi-fm.jpg'),
   ];
 }
