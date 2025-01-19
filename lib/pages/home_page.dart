@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:live_radio/apis/radio_api.dart';
-import 'package:live_radio/widgets/gradient_bg.dart';
 import 'package:live_radio/widgets/radio_player.dart';
 
 class HomePage extends StatelessWidget {

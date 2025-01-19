@@ -12,6 +12,7 @@ better ui
 border radius for radio station image
 Favourites of radio list
 icons for Previous Next Stations
+find a station is offline
 
 ## generate app icons here
 

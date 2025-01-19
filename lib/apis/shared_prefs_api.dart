@@ -6,6 +6,7 @@ import '../utils/radio_stations.dart';
 
 class SharedPrefsApi {
   static const _key = 'radio_station';
+  static const _favouriteKey = 'favourite';
   static const _currentStationKey = 'currentStation';
   static String currentStation = '';
   static String selectedLanguage = 'Tamil';
@@ -50,6 +51,24 @@ class SharedPrefsApi {
     final sharedPrefs = await SharedPreferences.getInstance();
     // print(sharedPrefs.getString(_currentStationKey));
     return sharedPrefs.getString(_currentStationKey);
+  }
+
+  static Future<void> setFavourites(RadioStation station) async {
+    final sharedPrefs = await SharedPreferences.getInstance();
+    List<String> favouritesList = [];
+    favouritesList =
+        sharedPrefs.getStringList(_favouriteKey) ?? []; // as List<String>;
+    // if (favouritesList.isEmpty) {
+    //   favouritesList.add(station.name);
+    //   sharedPrefs.setStringList(_favouriteKey, favouritesList);
+    // } else {
+    favouritesList.add(station.name);
+    sharedPrefs.setStringList(_favouriteKey, favouritesList);
+    // }
+    // List<String> value = [...favouritesList, station.name];
+
+    print('favouritesList is $favouritesList');
+    print(favouritesList);
   }
 
   static Future<void> setLanguage(String language) async {

@@ -6,6 +6,7 @@ import 'package:live_radio/providers/radio_provider.dart';
 import 'package:live_radio/utils/radio_stations.dart';
 import 'package:live_radio/widgets/radio_player.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class RadioList extends StatefulWidget {
   final String language;
@@ -44,39 +45,64 @@ class _RadioListState extends State<RadioList> {
                 width: 50, height: 50, fit: BoxFit.cover);
         // filter the stations based on the language
         if (station.language == widget.language) {
-          return Container(
-            decoration: BoxDecoration(
-              gradient: isSelected
-                  ? const LinearGradient(
-                      colors: [Colors.pink, Colors.deepPurple])
-                  : null,
-            ),
-            child: ListTile(
-              leading: photoURL,
-              horizontalTitleGap: 20,
-              title: Text(
-                station.name,
-                style: TextStyle(
-                  color: isSelected ? Colors.white : Colors.black,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          return Slidable(
+            endActionPane: ActionPane(motion: const StretchMotion(), children: [
+              // Add to Station to favourites
+              CustomSlidableAction(
+                onPressed: (context) {
+                  SharedPrefsApi.setFavourites(station);
+                },
+                backgroundColor: Colors.blueGrey,
+                foregroundColor: Colors.white,
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
                 ),
-              ),
-              onTap: () async {
-                provider.setRadioStation(station);
-                SharedPrefsApi.setStation(station);
-                SharedPrefsApi.currentStation = station.name;
-                // print(SharedPrefsApi.filterStations('English'));
-                await RadioApi.changeStation(station);
-                setState(() {
-                  selectedStation = station;
-                });
-              },
-            ),
+                child: const Icon(
+                  Icons.favorite,
+                  color: Colors.white,
+                  size: 30,
+                ),
+              )
+            ]),
+            child: _buildStationList(context, isSelected, station, photoURL),
           );
         } else {
           return const SizedBox.shrink();
         }
       },
+    );
+  }
+
+  Widget _buildStationList(
+      BuildContext context, isSelected, station, photoURL) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: isSelected
+            ? const LinearGradient(colors: [Colors.pink, Colors.deepPurple])
+            : null,
+      ),
+      child: ListTile(
+        leading: photoURL,
+        horizontalTitleGap: 20,
+        title: Text(
+          station.name,
+          style: TextStyle(
+            color: isSelected ? Colors.white : Colors.black,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+        onTap: () async {
+          provider.setRadioStation(station);
+          SharedPrefsApi.setStation(station);
+          SharedPrefsApi.currentStation = station.name;
+          // print(SharedPrefsApi.filterStations('English'));
+          await RadioApi.changeStation(station);
+          setState(() {
+            selectedStation = station;
+          });
+        },
+      ),
     );
   }
 }

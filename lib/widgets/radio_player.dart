@@ -247,7 +247,7 @@ class _RadioPlayerState extends State<RadioPlayer>
                   SharedPrefsApi.setStation(nextStation);
                   SharedPrefsApi.currentStation = nextStation.name;
                   await RadioApi.changeStation(nextStation);
-
+                  // SharedPrefsApi.setFavourites(nextStation);
                   setState(() {
                     selectedStation = nextStation;
                   });
@@ -325,6 +325,17 @@ class _RadioPlayerState extends State<RadioPlayer>
                                           40), // smaller rect, the touch area
                                   Offset.zero & overlay!.semanticBounds.size),
                               items: <PopupMenuEntry>[
+                                const PopupMenuItem(
+                                  value: 'Favourites',
+                                  child: SizedBox(
+                                    height: 22, // Set the desired height here
+                                    child: Row(
+                                      children: [
+                                        Text('Favourites'),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                                 const PopupMenuItem(
                                   value: 'Devotional',
                                   child: SizedBox(

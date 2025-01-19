@@ -1,5 +1,5 @@
 name: live_radio
-description: "A new Flutter project."
+description: "A online FM Radio Player App"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -36,10 +36,11 @@ dependencies:
   cupertino_icons: ^1.0.8
   provider: ^6.1.2
   shared_preferences: ^2.3.3
-  collection: ^1.19.0
+  collection: 1.18.0
   text_scroll: ^0.2.0
   radio_player: ^1.5.0
   volume_controller: ^3.0.1
+  flutter_slidable: ^3.1.2
 
 dev_dependencies:
   flutter_test:
