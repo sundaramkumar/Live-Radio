@@ -39,10 +39,20 @@ class _RadioPlayerState extends State<RadioPlayer>
   late RadioProvider provider;
 
   String _filteredLang = "Tamil";
+  String _isFavourites = "N";
   String get filteredLang => _filteredLang;
+  String get isFavourites => _isFavourites;
   set filteredLang(String value) {
     setState(() {
       _filteredLang = value;
+      _isFavourites = "N";
+    });
+  }
+
+  set isFavourites(String value) {
+    setState(() {
+      _filteredLang = filteredLang;
+      _isFavourites = value;
     });
   }
 
@@ -381,7 +391,11 @@ class _RadioPlayerState extends State<RadioPlayer>
                                   ),
                                 ),
                               ]).then((value) {
-                            filteredLang = value;
+                            if (value == 'Favourites') {
+                              isFavourites = 'Y';
+                            } else {
+                              filteredLang = value;
+                            }
                           })
                         },
                         onTapDown: _storePosition,
@@ -402,6 +416,7 @@ class _RadioPlayerState extends State<RadioPlayer>
                 Expanded(
                     child: RadioList(
                   language: filteredLang,
+                  favourites: isFavourites,
                 )) //
               ],
             ),

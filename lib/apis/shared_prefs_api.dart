@@ -58,17 +58,36 @@ class SharedPrefsApi {
     List<String> favouritesList = [];
     favouritesList =
         sharedPrefs.getStringList(_favouriteKey) ?? []; // as List<String>;
-    // if (favouritesList.isEmpty) {
-    //   favouritesList.add(station.name);
-    //   sharedPrefs.setStringList(_favouriteKey, favouritesList);
-    // } else {
-    favouritesList.add(station.name);
-    sharedPrefs.setStringList(_favouriteKey, favouritesList);
-    // }
-    // List<String> value = [...favouritesList, station.name];
+
+    if (!favouritesList.contains(station.name)) {
+      favouritesList.add(station.name);
+      sharedPrefs.setStringList(_favouriteKey, favouritesList);
+    }
 
     print('favouritesList is $favouritesList');
     print(favouritesList);
+  }
+
+  static Future<void> removeFavourite(RadioStation station) async {
+    final sharedPrefs = await SharedPreferences.getInstance();
+    List<String> favouritesList = [];
+    favouritesList =
+        sharedPrefs.getStringList(_favouriteKey) ?? []; // as List<String>;
+
+    if (favouritesList.contains(station.name)) {
+      favouritesList.remove(station.name);
+      sharedPrefs.setStringList(_favouriteKey, favouritesList);
+    }
+
+    print('favouritesList is $favouritesList');
+    print(favouritesList);
+  }
+
+  static Future<List<String>> getFavourites() async {
+    final sharedPrefs = await SharedPreferences.getInstance();
+    List<String> favouritesList = [];
+    favouritesList = sharedPrefs.getStringList(_favouriteKey) ?? [];
+    return favouritesList;
   }
 
   static Future<void> setLanguage(String language) async {

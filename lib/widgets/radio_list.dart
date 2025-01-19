@@ -10,7 +10,12 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 class RadioList extends StatefulWidget {
   final String language;
-  const RadioList({super.key, required this.language});
+  final String favourites;
+  const RadioList({
+    super.key,
+    required this.language,
+    required this.favourites,
+  });
 
   @override
   State<RadioList> createState() => _RadioListState();
@@ -19,17 +24,41 @@ class RadioList extends StatefulWidget {
 class _RadioListState extends State<RadioList> {
   late RadioStation selectedStation;
   late RadioProvider provider;
+  late List<String> favouritesList = [];
 
   @override
   void initState() {
     super.initState();
     provider = Provider.of<RadioProvider>(context, listen: false);
     selectedStation = provider.station;
+    _loadFavourites();
+  }
+
+  Future<void> _loadFavourites() async {
+    // favouritesList = await SharedPrefsApi.getFavourites();
+    SharedPrefsApi.getFavourites().then((favourites) {
+      favouritesList = favourites;
+      print(favouritesList);
+      // You can also call setState here to update the UI
+    });
+    // You can also call setState here to update the UI
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<RadioProvider>(context, listen: false);
+
+    print(widget.language);
+    print(widget.favourites);
+
+    // if (widget.favourites == 'Y') {
+    //   SharedPrefsApi.getFavourites().then((favourites) {
+    //     favouritesList = favourites;
+    //     print(favouritesList);
+    //     // You can also call setState here to update the UI
+    //   });
+    // }
+
     RadioStations.allStations
         .sort((a, b) => a.name.compareTo(b.name)); // sort the stations by name
     return ListView.builder(
@@ -43,36 +72,106 @@ class _RadioListState extends State<RadioList> {
                 width: 30, height: 30, fit: BoxFit.cover)
             : Image.asset(station.photoURL,
                 width: 50, height: 50, fit: BoxFit.cover);
-        // filter the stations based on the language
-        if (station.language == widget.language) {
+        if (widget.favourites == 'Y') {
+          if (favouritesList.any((e) => e.toString().contains(station.name))) {
+            return Slidable(
+                startActionPane:
+                    ActionPane(motion: const StretchMotion(), children: [
+                  // Add to Station to favourites
+                  CustomSlidableAction(
+                    //add provision to remove from fav
+                    // show a toast after completing operation
+                    onPressed: (context) {
+                      SharedPrefsApi.removeFavourite(station);
+                    },
+                    backgroundColor: Colors.blueGrey,
+                    foregroundColor: Colors.white,
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    ),
+                    child: Image.asset('assets/removefavorite.png',
+                        width: 30, height: 30, fit: BoxFit.cover),
+                  )
+                ]),
+                endActionPane:
+                    ActionPane(motion: const StretchMotion(), children: [
+                  // Add to Station to favourites
+                  CustomSlidableAction(
+                    onPressed: (context) {
+                      SharedPrefsApi.setFavourites(station);
+                    },
+                    backgroundColor: Colors.blueGrey,
+                    foregroundColor: Colors.white,
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.favorite,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                  )
+                ]),
+                child:
+                    _buildStationList(context, isSelected, station, photoURL));
+          } else {
+            return const SizedBox.shrink();
+          }
+        } else if (station.language == widget.language) {
+          // filter the stations based on the language
           return Slidable(
-            endActionPane: ActionPane(motion: const StretchMotion(), children: [
-              // Add to Station to favourites
-              CustomSlidableAction(
-                onPressed: (context) {
-                  SharedPrefsApi.setFavourites(station);
-                },
-                backgroundColor: Colors.blueGrey,
-                foregroundColor: Colors.white,
-                borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
-                ),
-                child: const Icon(
-                  Icons.favorite,
-                  color: Colors.white,
-                  size: 30,
-                ),
-              )
-            ]),
-            child: _buildStationList(context, isSelected, station, photoURL),
-          );
+              startActionPane:
+                  ActionPane(motion: const StretchMotion(), children: [
+                // Add to Station to favourites
+                CustomSlidableAction(
+                  //add provision to remove from fav
+                  // show a toast after completing operation
+                  onPressed: (context) {
+                    SharedPrefsApi.removeFavourite(station);
+                  },
+                  backgroundColor: Colors.blueGrey,
+                  foregroundColor: Colors.white,
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  ),
+                  child: Image.asset('assets/removefavorite.png',
+                      width: 30, height: 30, fit: BoxFit.cover),
+                )
+              ]),
+              endActionPane:
+                  ActionPane(motion: const StretchMotion(), children: [
+                // Add to Station to favourites
+                CustomSlidableAction(
+                  //add provision to remove from fav
+                  // show a toast after completing operation
+                  onPressed: (context) {
+                    SharedPrefsApi.setFavourites(station);
+                  },
+                  backgroundColor: Colors.blueGrey,
+                  foregroundColor: Colors.white,
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  ),
+                  child: Image.asset('assets/addfavorite.png',
+                      width: 30, height: 30, fit: BoxFit.cover),
+                )
+              ]),
+              child: _buildStationList(context, isSelected, station, photoURL));
         } else {
           return const SizedBox.shrink();
         }
       },
     );
   }
+
+  // Widget _buildSlidableList(
+  //     BuildContext context, isSelected, station, photoURL) {
+
+  // }
 
   Widget _buildStationList(
       BuildContext context, isSelected, station, photoURL) {
