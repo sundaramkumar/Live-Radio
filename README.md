@@ -7,16 +7,35 @@
 ## TODO
 
 fetch artwork from player api
-volume control
 better ui
 border radius for radio station image
-Favourites of radio list
-icons for Previous Next Stations
-find a station is offline
+find a station is offline - implemented the method, but shows always once a state is changed
 
-## generate app icons here
+## Screenshots
 
-https://www.iconsgenerator.com/Home/AppIcons
+Here are some screenshots of the Live Radio app:
+
+### Home Screen
+
+![Home Screen](screenshots/player_screen.jpg)
+
+### Radio Station List
+
+![Radio Station List](screenshots/radio_station_list.jpg)
+
+### Radio Station List Filter
+
+![Radio Station List](screenshots/radio_station_list_filter.jpg)
+
+### Radio Station List Favourite
+
+![Radio Station List](screenshots/radio_station_list_favourites.jpg)
+
+### Player Screen
+
+![Player Screen](screenshots/home_screen.jpg)
+
+To add these screenshots, place your image files in a `screenshots` directory and ensure the paths are correct relative to your README file.
 
 ## Getting Started
 

@@ -63,9 +63,6 @@ class SharedPrefsApi {
       favouritesList.add(station.name);
       sharedPrefs.setStringList(_favouriteKey, favouritesList);
     }
-
-    print('favouritesList is $favouritesList');
-    print(favouritesList);
   }
 
   static Future<void> removeFavourite(RadioStation station) async {
@@ -73,14 +70,12 @@ class SharedPrefsApi {
     List<String> favouritesList = [];
     favouritesList =
         sharedPrefs.getStringList(_favouriteKey) ?? []; // as List<String>;
-
+    // if (favouritesList.length > 1) {
     if (favouritesList.contains(station.name)) {
       favouritesList.remove(station.name);
       sharedPrefs.setStringList(_favouriteKey, favouritesList);
     }
-
-    print('favouritesList is $favouritesList');
-    print(favouritesList);
+    // }
   }
 
   static Future<List<String>> getFavourites() async {
