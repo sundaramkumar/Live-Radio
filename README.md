@@ -1,6 +1,7 @@
 # Live Radio
 
-A Live Radio player works in both Android, iOS platforms
+This Flutter app plays live radio stations available online. It's a simple to use app with a list of popular radio stations. You can click on the radio station to play it. The app also supports playing the radio station in the background. The app is written in Dart and uses the Flutter framework. You can add your own online radios available.
+The app is available in both Android and iOS platforms.
 
 ## Screenshots
 
