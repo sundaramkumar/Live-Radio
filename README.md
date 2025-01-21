@@ -1,15 +1,17 @@
 # Live Radio
 
+A Live Radio player works in both Android, iOS platforms
+
 ## To get started clone the repo and do
 
 - flutter pub get
 
 ## TODO
 
-fetch artwork from player api
-better ui
-border radius for radio station image
-find a station is offline - implemented the method, but shows always once a state is changed
+- fetch artwork from player api
+- better ui
+- border radius for radio station image
+- find a station is offline - implemented the method, but shows always once a state is changed
 
 ## Screenshots
 
@@ -17,23 +19,23 @@ Here are some screenshots of the Live Radio app:
 
 ### Home Screen
 
-![Home Screen](screenshots/player_screen.jpg){:width="350px" height="600px"}
+<img src="screenshots/home_screen.jpg" width="150" height=300>
 
 ### Radio Station List
 
-![Radio Station List](screenshots/radio_station_list.jpg)
+<img src="screenshots/radio_station_list.jpg" width="150" height=300>
 
 ### Radio Station List Filter
 
-![Radio Station List](screenshots/radio_station_list_filter.jpg)
+<img src="screenshots/radio_station_list_filter.jpg" width="150" height=300>
 
 ### Radio Station List Favourite
 
-![Radio Station List](screenshots/radio_station_list_favourites.jpg)
+<img src="screenshots/radio_station_list_favourites.jpg" width="150" height=300>
 
 ### Player Screen
 
-![Player Screen](screenshots/home_screen.jpg){:width="350px" height="600px"}
+<img src="screenshots/player_screen.jpg" width="150" height=300>
 
 To add these screenshots, place your image files in a `screenshots` directory and ensure the paths are correct relative to your README file.
 
