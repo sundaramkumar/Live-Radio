@@ -2,17 +2,6 @@
 
 A Live Radio player works in both Android, iOS platforms
 
-## To get started clone the repo and do
-
-- flutter pub get
-
-## TODO
-
-- fetch artwork from player api
-- better ui
-- border radius for radio station image
-- find a station is offline - implemented the method, but shows always once a state is changed
-
 ## Screenshots
 
 Here are some screenshots of the Live Radio app:
@@ -37,17 +26,18 @@ Here are some screenshots of the Live Radio app:
 
 <img src="screenshots/player_screen.jpg" width="150" height=300>
 
-To add these screenshots, place your image files in a `screenshots` directory and ensure the paths are correct relative to your README file.
+# Download the APK if you want to test, explore
+
+- [Download APK](release/app-release.apk)
+- [SHA1 Hash] 27f824082cd655afd4da68a8f67ba4517b163678
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+- flutter pub get
 
-A few resources to get you started if this is your first Flutter project:
+## TODO
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- fetch artwork from player api
+- better ui
+- border radius for radio station image
+- find a station is offline - implemented the method, but shows always once a state is changed
