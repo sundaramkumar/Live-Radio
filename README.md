@@ -17,7 +17,7 @@ Here are some screenshots of the Live Radio app:
 
 ### Home Screen
 
-![Home Screen](screenshots/player_screen.jpg)
+![Home Screen](screenshots/player_screen.jpg){:width="350px" height="600px"}
 
 ### Radio Station List
 
@@ -33,7 +33,7 @@ Here are some screenshots of the Live Radio app:
 
 ### Player Screen
 
-![Player Screen](screenshots/home_screen.jpg)
+![Player Screen](screenshots/home_screen.jpg){:width="350px" height="600px"}
 
 To add these screenshots, place your image files in a `screenshots` directory and ensure the paths are correct relative to your README file.
 
