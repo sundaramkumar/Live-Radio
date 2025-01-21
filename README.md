@@ -26,7 +26,9 @@ Here are some screenshots of the Live Radio app:
 
 <img src="screenshots/player_screen.jpg" width="150" height=300>
 
-# Download the APK if you want to test, explore
+# Download the APK
+
+Download the APK if you want to test, explore the app
 
 - [Download APK](release/app-release.apk)
 - [SHA1 Hash] 27f824082cd655afd4da68a8f67ba4517b163678
