@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:volume_controller/volume_controller.dart';
 import '../utils/toast.dart';
+// import 'package:connectivity_plus/connectivity_plus.dart';
 
 class RadioPlayer extends StatefulWidget {
   const RadioPlayer({super.key});
@@ -29,6 +30,11 @@ class _RadioPlayerState extends State<RadioPlayer>
 
   late VolumeController _volumeController;
   late final StreamSubscription<double> _subscription;
+
+  // StreamSubscription<List<ConnectivityResult>>? subscription;
+
+  // //Connection status check result.
+  // ConnectivityResult? connectivityResult;
 
   static bool listEnabled = false;
   bool isPlaying = true;
@@ -71,6 +77,20 @@ class _RadioPlayerState extends State<RadioPlayer>
   @override
   void initState() {
     super.initState();
+
+    // subscription = Connectivity()
+    //     .onConnectivityChanged
+    //     .listen((List<ConnectivityResult> result) {
+    //   setState(() {
+    //     connectivityResult = result.isNotEmpty ? result.first : null;
+    //   });
+
+    //   if (connectivityResult == ConnectivityResult.none) {
+    //     showToast('You seem to be offline');
+    //   } else {
+    //     showToast('You seem to be online');
+    //   }
+    // });
 
     _loadFavourites();
 
@@ -125,6 +145,7 @@ class _RadioPlayerState extends State<RadioPlayer>
   @override
   void dispose() {
     _subscription.cancel();
+    // subscription!.cancel();
     super.dispose();
   }
 
@@ -235,12 +256,15 @@ class _RadioPlayerState extends State<RadioPlayer>
       color: Colors.transparent,
       child: Consumer<RadioProvider>(builder: ((context, value, child) {
         artists = '';
-
         var photoURL = value.station.photoURL == ''
             ? Image.asset('assets/radio.png',
                 width: 30, height: 30, fit: BoxFit.cover)
             : Image.asset(value.station.photoURL,
-                width: 50, height: 50, fit: BoxFit.contain);
+                cacheWidth: 150,
+                cacheHeight: 150,
+                width: 50,
+                height: 50,
+                fit: BoxFit.contain);
         return photoURL;
       })),
     );
@@ -439,98 +463,24 @@ class _RadioPlayerState extends State<RadioPlayer>
             color: Colors.white54,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
         child: Column(
+          mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.only(left: 20, right: 10, top: 20),
               child: Row(
+                // mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    children: [
-                      const Text(
-                        'Radio List',
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        isFavourites == 'Y' ? 'Favourites' : filteredLang,
-                        style: const TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.normal),
-                      ),
-                    ],
+                  const Text(
+                    'Radio List',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   GestureDetector(
-                    onTap: () => {
-                      showMenu(
-                          context: context,
-                          position: RelativeRect.fromRect(
-                              _tapPosition! & const Size(40, 40),
-                              Offset.zero & overlay!.semanticBounds.size),
-                          items: <PopupMenuEntry>[
-                            const PopupMenuItem(
-                              value: 'Favourites',
-                              child: SizedBox(
-                                height: 22,
-                                child: Row(
-                                  children: [
-                                    Text('Favourites'),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const PopupMenuItem(
-                              value: 'Devotional',
-                              child: SizedBox(
-                                height: 22,
-                                child: Row(
-                                  children: [
-                                    Text('Devotional'),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const PopupMenuItem(
-                              value: 'English',
-                              child: SizedBox(
-                                height: 22,
-                                child: Row(
-                                  children: [
-                                    Text('English'),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const PopupMenuItem(
-                              value: 'Hindi',
-                              child: SizedBox(
-                                height: 22,
-                                child: Row(
-                                  children: [
-                                    Text('Hindi'),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const PopupMenuItem(
-                              value: 'Tamil',
-                              child: SizedBox(
-                                height: 22,
-                                child: Row(
-                                  children: [
-                                    Text('Tamil'),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ]).then((value) {
-                        if (value == 'Favourites') {
-                          isFavourites = 'Y';
-                        } else {
-                          filteredLang = value;
-                        }
-                      })
+                    onTapDown: (details) {
+                      _storePosition(details);
+                      _showMenu(context, details.globalPosition);
                     },
-                    onTapDown: _storePosition,
                     child: const Icon(
                       Icons.filter_alt,
                       color: Colors.white,
@@ -539,20 +489,124 @@ class _RadioPlayerState extends State<RadioPlayer>
                 ],
               ),
             ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Text(
+                    isFavourites == 'Y' ? 'Favourites' : filteredLang,
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(
+                        fontSize: 12, fontWeight: FontWeight.normal),
+                  ),
+                ),
+              ],
+            ),
             const Divider(
               color: Colors.black,
-              indent: 20,
-              endIndent: 20,
+              indent: 5,
+              endIndent: 5,
+              thickness: 1,
+              height: 5,
             ),
             Expanded(
+                flex: 1,
                 child: RadioList(
-              language: filteredLang,
-              favourites: isFavourites,
-            )),
+                  language: filteredLang,
+                  favourites: isFavourites,
+                )),
           ],
         ),
       ),
     );
+  }
+
+  void _showMenu(BuildContext context, Offset position) {
+    final overlay = Overlay.of(context);
+    if (overlay != null) {
+      final screenWidth = MediaQuery.of(context).size.width;
+      final screenHeight = MediaQuery.of(context).size.height;
+      showMenu(
+          context: context,
+          position: RelativeRect.fromRect(
+            Rect.fromLTWH(position.dx, position.dy, 40, 40),
+            Rect.fromLTWH(0, 0, screenWidth, screenHeight),
+          ),
+          items: <PopupMenuEntry>[
+            const PopupMenuItem(
+              height: 30,
+              value: 'Favourites',
+              child: SizedBox(
+                height: 22,
+                child: Row(
+                  children: [
+                    Text('Favourites'),
+                  ],
+                ),
+              ),
+            ),
+            const PopupMenuDivider(
+              height: 3,
+            ),
+            const PopupMenuItem(
+              height: 30,
+              value: 'Devotional',
+              child: SizedBox(
+                height: 22,
+                child: Row(
+                  children: [
+                    Text('Devotional'),
+                  ],
+                ),
+              ),
+            ),
+            const PopupMenuItem(
+              height: 30,
+              value: 'English',
+              child: SizedBox(
+                height: 22,
+                child: Row(
+                  children: [
+                    Text('English'),
+                  ],
+                ),
+              ),
+            ),
+            const PopupMenuItem(
+              height: 30,
+              value: 'Hindi',
+              child: SizedBox(
+                height: 22,
+                child: Row(
+                  children: [
+                    Text('Hindi'),
+                  ],
+                ),
+              ),
+            ),
+            const PopupMenuItem(
+              height: 30,
+              value: 'Tamil',
+              child: SizedBox(
+                height: 22,
+                child: Row(
+                  children: [
+                    Text('Tamil'),
+                  ],
+                ),
+              ),
+            ),
+          ]).then((value) {
+        if (value == 'Favourites') {
+          isFavourites = 'Y';
+        } else {
+          filteredLang = value;
+        }
+        _storePosition;
+      });
+    } else {
+      print('Error: overlay is null');
+    }
   }
 
   Widget _buildFooter() {
@@ -565,7 +619,7 @@ class _RadioPlayerState extends State<RadioPlayer>
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextScroll(
-              'Online FM Radio Player By Kumar',
+              'Online FM Radio Player By Kumar Sundaram',
               mode: TextScrollMode.bouncing,
               velocity: Velocity(pixelsPerSecond: Offset(25, 0)),
               delayBefore: Duration(milliseconds: 500),

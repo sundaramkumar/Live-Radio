@@ -50,6 +50,7 @@ class _RadioListState extends State<RadioList> {
     RadioStations.allStations
         .sort((a, b) => a.name.compareTo(b.name)); // sort the stations by name
     return ListView.builder(
+      padding: const EdgeInsets.only(top: 5),
       itemCount: RadioStations.allStations.length,
       itemBuilder: (context, index) {
         final station = RadioStations.allStations[index];
