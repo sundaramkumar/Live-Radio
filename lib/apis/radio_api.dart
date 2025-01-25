@@ -31,10 +31,12 @@ class RadioApi {
     // if (offline) {
     //   // Handle the station being offline
     //   showToast('${station.name} is offline');
-    //   await player.stop();
+    //   // await player.stop();
 
     //   // You can show a message to the user or update the UI accordingly
     // } else {
+    //   showToast('${station.name} is online');
+
     //   await player.stop();
     //   await player.setChannel(title: station.name, url: station.streamURL);
     //   await player.play();

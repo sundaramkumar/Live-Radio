@@ -12,7 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:volume_controller/volume_controller.dart';
 import '../utils/toast.dart';
-// import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class RadioPlayer extends StatefulWidget {
   const RadioPlayer({super.key});
@@ -31,10 +31,10 @@ class _RadioPlayerState extends State<RadioPlayer>
   late VolumeController _volumeController;
   late final StreamSubscription<double> _subscription;
 
-  // StreamSubscription<List<ConnectivityResult>>? subscription;
+  StreamSubscription<List<ConnectivityResult>>? subscription;
 
-  // //Connection status check result.
-  // ConnectivityResult? connectivityResult;
+  //Connection status check result.
+  ConnectivityResult? connectivityResult;
 
   static bool listEnabled = false;
   bool isPlaying = true;
@@ -78,19 +78,19 @@ class _RadioPlayerState extends State<RadioPlayer>
   void initState() {
     super.initState();
 
-    // subscription = Connectivity()
-    //     .onConnectivityChanged
-    //     .listen((List<ConnectivityResult> result) {
-    //   setState(() {
-    //     connectivityResult = result.isNotEmpty ? result.first : null;
-    //   });
+    subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((List<ConnectivityResult> result) {
+      setState(() {
+        connectivityResult = result.isNotEmpty ? result.first : null;
+      });
 
-    //   if (connectivityResult == ConnectivityResult.none) {
-    //     showToast('You seem to be offline');
-    //   } else {
-    //     showToast('You seem to be online');
-    //   }
-    // });
+      if (connectivityResult == ConnectivityResult.none) {
+        showToast('You seem to be offline');
+      } else {
+        showToast('You seem to be online now');
+      }
+    });
 
     _loadFavourites();
 
@@ -171,13 +171,13 @@ class _RadioPlayerState extends State<RadioPlayer>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildHeader(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               _buildStationImage(provider),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               _buildStationName(provider),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               _buildScrollingArtistsInfo(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               _buildControlButtons(
                   filteredStations, currentIndex, totalStations, provider),
               _buildVolumeSlider(),
@@ -336,6 +336,7 @@ class _RadioPlayerState extends State<RadioPlayer>
         _buildNextIconButton(
             filteredStations, currentIndex, totalStations, provider),
         _buildVolumeIconButton(),
+        _buildOnlineOfflineIcon(),
       ],
     );
   }
@@ -432,6 +433,25 @@ class _RadioPlayerState extends State<RadioPlayer>
       color: Colors.white,
       iconSize: 20,
       icon: Icon(isMuted ? Icons.volume_off : Icons.volume_up),
+    );
+  }
+
+  Widget _buildOnlineOfflineIcon() {
+    return Column(
+      children: [
+        Image.asset(
+            connectivityResult == ConnectivityResult.none
+                ? 'assets/offline.png'
+                : 'assets/online.png',
+            width: 20,
+            height: 20,
+            color: Colors.white,
+            fit: BoxFit.cover),
+        Text(
+          connectivityResult == ConnectivityResult.none ? 'Offline' : 'Online',
+          style: const TextStyle(fontSize: 7, color: Colors.white),
+        )
+      ],
     );
   }
 
