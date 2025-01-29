@@ -8,6 +8,7 @@ import 'package:live_radio/widgets/radio_player.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import '../pages/current_station_page.dart';
 import '../utils/toast.dart';
 
 class RadioList extends StatefulWidget {
@@ -49,8 +50,8 @@ class _RadioListState extends State<RadioList> {
 
     RadioStations.allStations
         .sort((a, b) => a.name.compareTo(b.name)); // sort the stations by name
-    print(widget.favourites);
-    print('language is ${widget.language}');
+    // print(widget.favourites);
+    // print('language is ${widget.language}');
     var stationsListLength = widget.favourites == 'Y'
         ? favouritesList.length
         : RadioStations.allStations
@@ -69,6 +70,7 @@ class _RadioListState extends State<RadioList> {
       crossAxisCount: 2,
       crossAxisSpacing: 10,
       mainAxisSpacing: 10,
+      padding: const EdgeInsets.only(top: 10),
       children: stationsList.map((station) {
         // final station = RadioStations.allStations[index];
         bool isSelected = station.name == provider.station.name;
@@ -86,29 +88,6 @@ class _RadioListState extends State<RadioList> {
         }
       }).toList(),
     );
-
-    // return ListView.builder(
-    //   padding: const EdgeInsets.only(top: 5),
-    //   itemCount: RadioStations.allStations.length,
-    //   itemBuilder: (context, index) {
-    //     final station = RadioStations.allStations[index];
-    //     bool isSelected = station.name == provider.station.name;
-
-    //     var photoURL = station.photoURL == ''
-    //         ? Image.asset('assets/radio.png',
-    //             width: 30, height: 30, fit: BoxFit.cover)
-    //         : Image.asset(station.photoURL,
-    //             width: 50, height: 50, fit: BoxFit.cover);
-    //     return radioStationCard(context, station, isSelected, photoURL);
-    //     // if (widget.favourites == 'Y') {
-    //     //   return _buildFavouriteStation(context, station, isSelected, photoURL);
-    //     // } else if (station.language == widget.language) {
-    //     //   return _buildLanguageStation(context, station, isSelected, photoURL);
-    //     // } else {
-    //     //   return const SizedBox.shrink();
-    //     // }
-    //   },
-    // );
   }
 
   Widget _buildFavouriteStation(BuildContext context, RadioStation station,
@@ -152,36 +131,48 @@ class _RadioListState extends State<RadioList> {
 
   Widget radioStationCard(BuildContext context, RadioStation station,
       bool isSelected, Image photoURL) {
-    return SizedBox(
-      height: 100,
-      width: 100,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: 1), // add this line
-          color: isSelected ? Colors.pinkAccent : Color(0x0032324E),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            InkWell(
-              onTap: () async {
-                provider.setRadioStation(station);
-                SharedPrefsApi.setStation(station);
-                SharedPrefsApi.currentStation = station.name;
-                // print(SharedPrefsApi.filterStations('English'));
-                await RadioApi.changeStation(station);
-                setState(() {
-                  selectedStation = station;
-                });
-              },
-              child: Container(
-                child: photoURL,
-              ),
+    return InkWell(
+        onTap: () async {
+          provider.setRadioStation(station);
+          SharedPrefsApi.setStation(station);
+          SharedPrefsApi.currentStation = station.name;
+          // print(SharedPrefsApi.filterStations('English'));
+          await RadioApi.changeStation(station);
+          _onStationTapped(context, station);
+
+          setState(() {
+            selectedStation = station;
+          });
+        },
+        child: SizedBox(
+          height: 100,
+          width: 100,
+          child: Container(
+            decoration: BoxDecoration(
+              border:
+                  Border.all(color: Colors.blue, width: 0.5), // add this line
+              color: isSelected ? Colors.pinkAccent : Color(0x0032324E),
+              borderRadius: BorderRadius.circular(12),
             ),
-          ],
-        ),
-      ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  child: photoURL,
+                ),
+              ],
+            ),
+          ),
+        ));
+  }
+
+  void _onStationTapped(BuildContext context, RadioStation station) {
+    final provider = Provider.of<RadioProvider>(context, listen: false);
+    provider.setRadioStation(station);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CurrentStationPage()),
     );
   }
 

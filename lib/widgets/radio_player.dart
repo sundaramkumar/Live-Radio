@@ -13,6 +13,7 @@ import 'package:text_scroll/text_scroll.dart';
 import 'package:volume_controller/volume_controller.dart';
 import '../utils/toast.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import '../pages/current_station_page.dart';
 
 class RadioPlayer extends StatefulWidget {
   const RadioPlayer({super.key});
@@ -41,6 +42,7 @@ class _RadioPlayerState extends State<RadioPlayer>
   bool isMuted = false;
   List metadata = [];
   String artists = '';
+  String filterName = '';
 
   late RadioStation selectedStation;
   late RadioProvider provider;
@@ -92,7 +94,9 @@ class _RadioPlayerState extends State<RadioPlayer>
       }
     });
     _loadFavourites();
-
+    final provider = Provider.of<RadioProvider>(context, listen: false);
+    filteredLang = provider.station.language;
+    isFavourites = 'N';
     // final provider = Provider.of<RadioProvider>(context, listen: true);
     // selectedStation = provider.station;
 
@@ -169,7 +173,9 @@ class _RadioPlayerState extends State<RadioPlayer>
           Container(
             width: 60, // Small sidebar width
             color: Colors.black54,
+            height: MediaQuery.of(context).size.height,
             child: Column(
+              // left side menu bar
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SizedBox(height: 50),
@@ -188,6 +194,12 @@ class _RadioPlayerState extends State<RadioPlayer>
                 menuText("Hindi", "Hindi"),
                 const SizedBox(height: 20),
                 menuText("Tamil", "Tamil"),
+                const SizedBox(height: 50),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  child: rotatedText("Live Radio"),
+                ),
 
                 // isSelected: true), // Selected item highlighted
               ],
@@ -195,36 +207,33 @@ class _RadioPlayerState extends State<RadioPlayer>
           ),
           Container(
             width: MediaQuery.of(context).size.width - 60,
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/framebg.png"),
+                    fit: BoxFit.fitWidth)),
             child: Padding(
-              padding: const EdgeInsets.only(right: 5.0),
+              padding: const EdgeInsets.only(top: 20, right: 5.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Popular',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 40),
+                  Text(isFavourites == 'Y' ? 'Favourites' : filteredLang,
+                      style: const TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold)),
+                  // const SizedBox(height: 10),
+                  TextScroll('Now playing: ${selectedStation.name}',
+                      style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal)),
+                  // const SizedBox(height: 10),
                   Expanded(
                       child: RadioList(
                     language: filteredLang,
                     favourites: isFavourites,
-                  )
-                      // child: GridView.count(
-                      //   crossAxisCount: 2,
-                      //   crossAxisSpacing: 10,
-                      //   mainAxisSpacing: 10,
-                      //   children: [
-                      //     radioStationCard('90.5', 'Divelement', isPlaying: true),
-                      //     radioStationCard('94.3', 'Diegodeveloper'),
-                      //     radioStationCard('98.5', 'Brayan'),
-                      //     radioStationCard('91.0', 'Argel'),
-                      //     radioStationCard('104.2', 'Fluttter'),
-                      //     radioStationCard('92.7', 'Miau Miua'),
-                      //     radioStationCard('92.7', 'Miau Miua'),
-                      //     radioStationCard('92.7', 'Miau Miua'),
-                      //     radioStationCard('92.7', 'Miau Miua'),
-                      //   ],
-                      // ),
-                      ),
+                  )),
                   const SizedBox(height: 10),
                   _buildControlButtons(
                       filteredStations, currentIndex, totalStations, provider),
@@ -261,41 +270,6 @@ class _RadioPlayerState extends State<RadioPlayer>
     //     _buildFooter(),
     //   ],
     // );
-  }
-
-  Widget radioStationCard(BuildContext context, RadioStation station,
-      bool isSelected, Image photoURL) {
-    return SizedBox(
-      height: 100,
-      width: 100,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: 1), // add this line
-          color: isSelected ? Colors.pinkAccent : Color(0x0032324E),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            InkWell(
-              onTap: () async {
-                provider.setRadioStation(station);
-                SharedPrefsApi.setStation(station);
-                SharedPrefsApi.currentStation = station.name;
-                // print(SharedPrefsApi.filterStations('English'));
-                await RadioApi.changeStation(station);
-                setState(() {
-                  selectedStation = station;
-                });
-              },
-              child: Container(
-                child: photoURL,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   Widget playbackControls() {
@@ -808,33 +782,22 @@ class _RadioPlayerState extends State<RadioPlayer>
   // Rotated Text for Sidebar
   Widget menuText(String text, String value, {bool isSelected = false}) {
     SharedPrefsApi.getFilter().then((filter) {
-      print('filter is ----> $filter --> $filteredLang --> $value');
-      // isFavourites = filter == 'Favourites' ? 'Y' : filteredLang == value;
-      // isSelected = isFavourites == 'Y'
-      //     ? true
-      //     : filter == value
-      //         ? true
-      //         : filteredLang == value;
-
-      if (isFavourites == 'Y') {
-        isSelected = true;
-      } else if (filter == value) {
-        isSelected = true;
-      } else if (filteredLang == value) {
-        isSelected = true;
-      } else {
-        isSelected = false;
-      }
+      isSelected = isFavourites == 'Y' ? true : filteredLang == value;
     });
-    print('isSelected is $isSelected');
+    isSelected = isFavourites == 'Y' ? true : filteredLang == value;
+
     return GestureDetector(
       onTapDown: (details) {
+        filterName = value;
         SharedPrefsApi.setFilter(value);
-        if (value == 'Favourites') {
-          isFavourites = 'Y';
-        } else {
-          filteredLang = value;
-        }
+        setState(() {
+          if (value == 'Favourites') {
+            isFavourites = 'Y';
+          } else {
+            filteredLang = value;
+            isFavourites = 'N';
+          }
+        });
       },
       child: RotatedBox(
         quarterTurns: -1,
@@ -847,6 +810,24 @@ class _RadioPlayerState extends State<RadioPlayer>
               color: isSelected ? Colors.white : Colors.grey,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Rotated Text for Sidebar
+  Widget rotatedText(String text) {
+    return RotatedBox(
+      quarterTurns: -1,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontSize: 24,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
