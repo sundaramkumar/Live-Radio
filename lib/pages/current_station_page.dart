@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:live_radio/apis/radio_api.dart';
+import 'package:live_radio/apis/shared_prefs_api.dart';
+import 'package:live_radio/utils/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:volume_controller/volume_controller.dart';
@@ -14,7 +16,7 @@ class CurrentStationPage extends StatefulWidget {
 
 class _CurrentStationPageState extends State<CurrentStationPage> {
   late VolumeController _volumeController;
-
+  late List<String> favouritesList = [];
   double _currentVolume = 0.5;
   double _volumeValue = 0;
   bool isPlaying = true;
@@ -27,7 +29,7 @@ class _CurrentStationPageState extends State<CurrentStationPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    _loadFavourites();
     RadioApi.player.stateStream.listen((event) {
       setState(() {
         isPlaying = event;
@@ -47,6 +49,14 @@ class _CurrentStationPageState extends State<CurrentStationPage> {
     _subscription.cancel();
     // subscription!.cancel();
     super.dispose();
+  }
+
+  Future<void> _loadFavourites() async {
+    // favouritesList = await SharedPrefsApi.getFavourites();
+    SharedPrefsApi.getFavourites().then((favourites) {
+      favouritesList = favourites;
+      print('favouritesList ---> : $favouritesList');
+    });
   }
 
   @override
@@ -93,6 +103,7 @@ class _CurrentStationPageState extends State<CurrentStationPage> {
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
+              const SizedBox(height: 20),
               photoURL,
               const SizedBox(height: 20),
               Text(
@@ -111,6 +122,7 @@ class _CurrentStationPageState extends State<CurrentStationPage> {
               const SizedBox(height: 20),
               _buildVolumeSlider(),
               const SizedBox(height: 20),
+              _buildFavouritesSection(context, station),
               TextScroll(
                 'Stream URL: ${station.streamURL}',
                 style: const TextStyle(fontSize: 14, color: Colors.white),
@@ -175,5 +187,36 @@ class _CurrentStationPageState extends State<CurrentStationPage> {
       iconSize: 20,
       icon: Icon(isMuted ? Icons.volume_off : Icons.volume_up),
     );
+  }
+
+  Widget _buildFavouritesSection(BuildContext context, station) {
+    if (favouritesList.contains(station.name)) {
+      print('favouritesList is ---> : $favouritesList');
+      return TextButton(
+          onPressed: () {
+            setState(() {
+              SharedPrefsApi.removeFavourite(station);
+              favouritesList.remove(station.name);
+            });
+            showToast('Removed From Favourites');
+          },
+          child: const Text(
+            'Remove From Favourites',
+            style: TextStyle(fontSize: 16, color: Colors.white),
+          ));
+    } else {
+      return TextButton(
+          onPressed: () {
+            setState(() {
+              SharedPrefsApi.setFavourites(station);
+              favouritesList.add(station.name);
+            });
+            showToast('Added to Favourites');
+          },
+          child: const Text(
+            'Add to Favourites',
+            style: TextStyle(fontSize: 16, color: Colors.white),
+          ));
+    }
   }
 }

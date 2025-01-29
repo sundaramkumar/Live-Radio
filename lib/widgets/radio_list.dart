@@ -80,7 +80,7 @@ class _RadioListState extends State<RadioList> {
             : Image.asset(station.photoURL,
                 width: 100, height: 100, fit: BoxFit.fill);
         if (widget.favourites == 'Y') {
-          return _buildLanguageStation(context, station, isSelected, photoURL);
+          return _buildFavouriteStation(context, station, isSelected, photoURL);
         } else if (station.language == widget.language) {
           return radioStationCard(context, station, isSelected, photoURL);
         } else {
