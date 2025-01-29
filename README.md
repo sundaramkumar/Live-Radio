@@ -114,6 +114,10 @@ Follow these steps to build and run the Live Radio app on your local machine:
 
 ## TODO
 
+- ui kits https://www.uxcrush.com/figma-mobile-templates/
+- sample screens here https://codecanyon.net/item/radiobox-online-radio-app-ui-kit-in-flutter/31876551?_gl=1*glekjt*_gcl_au*MTM0NjEyODM4Ni4xNzM4MDU5MTM1*_ga*MTY0MzcwMDUyNy4xNzM4MDU5MTMy*_ga_ZKBVC1X78F*MTczODA1OTEzNS4xLjEuMTczODA1OTE4Ni45LjAuMA..&_ga=2.21069051.1199469062.1738059132-1643700527.1738059132
+
+- better layout as like this https://dribbble.com/shots/14402323-Radio-App-Concept
 - fetch artwork from player api
 - better ui
 - border radius for radio station image

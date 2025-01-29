@@ -8,8 +8,10 @@ class SharedPrefsApi {
   static const _key = 'radio_station';
   static const _favouriteKey = 'favourite';
   static const _currentStationKey = 'currentStation';
+  static const _filterKey = 'filter';
   static String currentStation = '';
   static String selectedLanguage = 'Tamil';
+  static String selectedFilter = 'Favourites';
 
   static Future<RadioStation> getInitialRadioStation() async {
     final sharedPrefs = await SharedPreferences.getInstance();
@@ -85,8 +87,17 @@ class SharedPrefsApi {
     return favouritesList;
   }
 
-  static Future<void> setLanguage(String language) async {
-    selectedLanguage = language;
+  static Future<void> setFilter(String filterName) async {
+    final sharedPrefs = await SharedPreferences.getInstance();
+    selectedFilter = filterName;
+    sharedPrefs.setString(_filterKey, filterName);
+    print('filterName is $filterName');
+  }
+
+  static Future<String> getFilter() async {
+    final sharedPrefs = await SharedPreferences.getInstance();
+
+    return sharedPrefs.getString(_filterKey).toString();
     // print('selectedLanguage is $selectedLanguage');
   }
 }

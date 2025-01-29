@@ -91,7 +91,6 @@ class _RadioPlayerState extends State<RadioPlayer>
         showToast('You seem to be online now');
       }
     });
-
     _loadFavourites();
 
     // final provider = Provider.of<RadioProvider>(context, listen: true);
@@ -163,29 +162,178 @@ class _RadioPlayerState extends State<RadioPlayer>
     if (overlay == null) {
       //return 0;
     }
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildHeader(),
-              const SizedBox(height: 10),
-              _buildStationImage(provider),
-              const SizedBox(height: 10),
-              _buildStationName(provider),
-              const SizedBox(height: 15),
-              _buildScrollingArtistsInfo(),
-              const SizedBox(height: 15),
-              _buildControlButtons(
-                  filteredStations, currentIndex, totalStations, provider),
-              _buildVolumeSlider(),
-            ],
+    return Padding(
+      padding: const EdgeInsets.all(0.0), //(left: 0, right: 16.0),
+      child: Row(
+        children: [
+          Container(
+            width: 60, // Small sidebar width
+            color: Colors.black54,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(height: 50),
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  child: Image.asset("assets/radio.png", width: 40),
+                ),
+                const SizedBox(height: 50),
+                menuText("Favourites", "Favourites", isSelected: true),
+                const SizedBox(height: 20),
+                menuText("Devotional", "Devotional"),
+                const SizedBox(height: 20),
+                menuText("English", "English"),
+                const SizedBox(height: 20),
+                menuText("Hindi", "Hindi"),
+                const SizedBox(height: 20),
+                menuText("Tamil", "Tamil"),
+
+                // isSelected: true), // Selected item highlighted
+              ],
+            ),
           ),
+          Container(
+            width: MediaQuery.of(context).size.width - 60,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5.0),
+              child: Column(
+                children: [
+                  const Text('Popular',
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
+                  Expanded(
+                      child: RadioList(
+                    language: filteredLang,
+                    favourites: isFavourites,
+                  )
+                      // child: GridView.count(
+                      //   crossAxisCount: 2,
+                      //   crossAxisSpacing: 10,
+                      //   mainAxisSpacing: 10,
+                      //   children: [
+                      //     radioStationCard('90.5', 'Divelement', isPlaying: true),
+                      //     radioStationCard('94.3', 'Diegodeveloper'),
+                      //     radioStationCard('98.5', 'Brayan'),
+                      //     radioStationCard('91.0', 'Argel'),
+                      //     radioStationCard('104.2', 'Fluttter'),
+                      //     radioStationCard('92.7', 'Miau Miua'),
+                      //     radioStationCard('92.7', 'Miau Miua'),
+                      //     radioStationCard('92.7', 'Miau Miua'),
+                      //     radioStationCard('92.7', 'Miau Miua'),
+                      //   ],
+                      // ),
+                      ),
+                  const SizedBox(height: 10),
+                  _buildControlButtons(
+                      filteredStations, currentIndex, totalStations, provider),
+                  _buildVolumeSlider(),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+    // return Column(
+    //   mainAxisAlignment: MainAxisAlignment.center,
+    //   children: [
+    //     Expanded(
+    //       child: Column(
+    //         mainAxisAlignment: MainAxisAlignment.center,
+    //         children: [
+    //           _buildHeader(),
+    //           const SizedBox(height: 10),
+    //           _buildStationImage(provider),
+    //           const SizedBox(height: 10),
+    //           _buildStationName(provider),
+    //           const SizedBox(height: 15),
+    //           _buildScrollingArtistsInfo(),
+    //           const SizedBox(height: 15),
+    //           _buildControlButtons(
+    //               filteredStations, currentIndex, totalStations, provider),
+    //           _buildVolumeSlider(),
+    //         ],
+    //       ),
+    //     ),
+    //     _buildRadioList(context, _tapPosition, overlay),
+    //     _buildFooter(),
+    //   ],
+    // );
+  }
+
+  Widget radioStationCard(BuildContext context, RadioStation station,
+      bool isSelected, Image photoURL) {
+    return SizedBox(
+      height: 100,
+      width: 100,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey, width: 1), // add this line
+          color: isSelected ? Colors.pinkAccent : Color(0x0032324E),
+          borderRadius: BorderRadius.circular(12),
         ),
-        _buildRadioList(context, _tapPosition, overlay),
-        _buildFooter(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            InkWell(
+              onTap: () async {
+                provider.setRadioStation(station);
+                SharedPrefsApi.setStation(station);
+                SharedPrefsApi.currentStation = station.name;
+                // print(SharedPrefsApi.filterStations('English'));
+                await RadioApi.changeStation(station);
+                setState(() {
+                  selectedStation = station;
+                });
+              },
+              child: Container(
+                child: photoURL,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget playbackControls() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+                icon: Image.asset('assets/left.png'),
+                // icon: Icon(Icons.arrow_left, size: 40, color: Colors.white),
+                onPressed: () {}),
+            IconButton(
+                icon: Image.asset('assets/play.png'),
+                // icon: Icon(Icons.arrow_left, size: 40, color: Colors.white),
+                onPressed: () {}),
+            // Container(
+            //   decoration: BoxDecoration(
+            //     shape: BoxShape.circle,
+            //     color: Colors.pink,
+            //   ),
+            //   padding: EdgeInsets.all(16),
+            //   child: Image.asset('assets/play.png'),
+            //   // Icon(Icons.play_arrow, color: Colors.white, size: 40),
+            // ),
+            IconButton(
+                icon: Image.asset('assets/right.png'),
+                // icon: Icon(Icons.arrow_right, size: 40, color: Colors.white),
+                onPressed: () {}),
+          ],
+        ),
+        _buildVolumeSlider(),
+        // Slider(
+        //   value: 0.65,
+        //   onChanged: (value) {},
+        //   activeColor: Colors.pink,
+        //   inactiveColor: Colors.white24,
+        // ),
       ],
     );
   }
@@ -329,14 +477,14 @@ class _RadioPlayerState extends State<RadioPlayer>
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildListIconButton(),
+        // _buildListIconButton(),
         _buildPreviousIconButton(
             filteredStations, currentIndex, totalStations, provider),
         _buildPlayPauseIconButton(),
         _buildNextIconButton(
             filteredStations, currentIndex, totalStations, provider),
-        _buildVolumeIconButton(),
-        _buildOnlineOfflineIcon(),
+        // _buildVolumeIconButton(),
+        // _buildOnlineOfflineIcon(),
       ],
     );
   }
@@ -381,7 +529,7 @@ class _RadioPlayerState extends State<RadioPlayer>
       color: Colors.white,
       iconSize: 20,
       tooltip: 'Previous Station',
-      icon: const Icon(Icons.skip_previous),
+      icon: Image.asset('assets/left.png'),
     );
   }
 
@@ -393,7 +541,7 @@ class _RadioPlayerState extends State<RadioPlayer>
       },
       color: Colors.white,
       iconSize: 20,
-      icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+      icon: Image.asset(isPlaying ? 'assets/pause.png' : 'assets/play.png'),
     );
   }
 
@@ -415,7 +563,7 @@ class _RadioPlayerState extends State<RadioPlayer>
       color: Colors.white,
       iconSize: 20,
       tooltip: 'Next Station',
-      icon: const Icon(Icons.skip_next),
+      icon: Image.asset('assets/right.png'),
     );
   }
 
@@ -468,7 +616,10 @@ class _RadioPlayerState extends State<RadioPlayer>
           min: 0,
           max: 1,
           divisions: 10,
+          activeColor: Colors.pink,
+          inactiveColor: Colors.white24,
         ),
+        _buildVolumeIconButton(),
       ],
     );
   }
@@ -651,6 +802,54 @@ class _RadioPlayerState extends State<RadioPlayer>
               selectable: true,
             ),
           ]),
+    );
+  }
+
+  // Rotated Text for Sidebar
+  Widget menuText(String text, String value, {bool isSelected = false}) {
+    SharedPrefsApi.getFilter().then((filter) {
+      print('filter is ----> $filter --> $filteredLang --> $value');
+      // isFavourites = filter == 'Favourites' ? 'Y' : filteredLang == value;
+      // isSelected = isFavourites == 'Y'
+      //     ? true
+      //     : filter == value
+      //         ? true
+      //         : filteredLang == value;
+
+      if (isFavourites == 'Y') {
+        isSelected = true;
+      } else if (filter == value) {
+        isSelected = true;
+      } else if (filteredLang == value) {
+        isSelected = true;
+      } else {
+        isSelected = false;
+      }
+    });
+    print('isSelected is $isSelected');
+    return GestureDetector(
+      onTapDown: (details) {
+        SharedPrefsApi.setFilter(value);
+        if (value == 'Favourites') {
+          isFavourites = 'Y';
+        } else {
+          filteredLang = value;
+        }
+      },
+      child: RotatedBox(
+        quarterTurns: -1,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 16,
+              color: isSelected ? Colors.white : Colors.grey,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
