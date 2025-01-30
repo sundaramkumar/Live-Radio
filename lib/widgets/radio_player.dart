@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:live_radio/apis/radio_api.dart';
 import 'package:live_radio/apis/shared_prefs_api.dart';
@@ -178,30 +178,7 @@ class _RadioPlayerState extends State<RadioPlayer>
               // left side menu bar
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const SizedBox(height: 50),
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  child: Image.asset("assets/radio.png", width: 40),
-                ),
-                const SizedBox(height: 50),
-                menuText("Favourites", "Favourites", isSelected: true),
-                const SizedBox(height: 20),
-                menuText("Devotional", "Devotional"),
-                const SizedBox(height: 20),
-                menuText("English", "English"),
-                const SizedBox(height: 20),
-                menuText("Hindi", "Hindi"),
-                const SizedBox(height: 20),
-                menuText("Tamil", "Tamil"),
-                const SizedBox(height: 50),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: rotatedText("Live Radio"),
-                ),
-
-                // isSelected: true), // Selected item highlighted
+                _buildLeftMenu(),
               ],
             ),
           ),
@@ -218,17 +195,17 @@ class _RadioPlayerState extends State<RadioPlayer>
                 children: [
                   const SizedBox(height: 40),
                   Text(isFavourites == 'Y' ? 'Favourites' : filteredLang,
-                      style: const TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold)),
-                  // const SizedBox(height: 10),
+                      style: GoogleFonts.aclonica(
+                        fontSize: 24,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      )),
                   TextScroll('Now playing: ${selectedStation.name}',
-                      style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal)),
-                  // const SizedBox(height: 10),
+                      style: GoogleFonts.montserrat(
+                        fontSize: 12,
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal,
+                      )),
                   Expanded(
                       child: RadioList(
                     language: filteredLang,
@@ -245,71 +222,27 @@ class _RadioPlayerState extends State<RadioPlayer>
         ],
       ),
     );
-    // return Column(
-    //   mainAxisAlignment: MainAxisAlignment.center,
-    //   children: [
-    //     Expanded(
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: [
-    //           _buildHeader(),
-    //           const SizedBox(height: 10),
-    //           _buildStationImage(provider),
-    //           const SizedBox(height: 10),
-    //           _buildStationName(provider),
-    //           const SizedBox(height: 15),
-    //           _buildScrollingArtistsInfo(),
-    //           const SizedBox(height: 15),
-    //           _buildControlButtons(
-    //               filteredStations, currentIndex, totalStations, provider),
-    //           _buildVolumeSlider(),
-    //         ],
-    //       ),
-    //     ),
-    //     _buildRadioList(context, _tapPosition, overlay),
-    //     _buildFooter(),
-    //   ],
-    // );
   }
 
-  Widget playbackControls() {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-                icon: Image.asset('assets/left.png'),
-                // icon: Icon(Icons.arrow_left, size: 40, color: Colors.white),
-                onPressed: () {}),
-            IconButton(
-                icon: Image.asset('assets/play.png'),
-                // icon: Icon(Icons.arrow_left, size: 40, color: Colors.white),
-                onPressed: () {}),
-            // Container(
-            //   decoration: BoxDecoration(
-            //     shape: BoxShape.circle,
-            //     color: Colors.pink,
-            //   ),
-            //   padding: EdgeInsets.all(16),
-            //   child: Image.asset('assets/play.png'),
-            //   // Icon(Icons.play_arrow, color: Colors.white, size: 40),
-            // ),
-            IconButton(
-                icon: Image.asset('assets/right.png'),
-                // icon: Icon(Icons.arrow_right, size: 40, color: Colors.white),
-                onPressed: () {}),
-          ],
-        ),
-        _buildVolumeSlider(),
-        // Slider(
-        //   value: 0.65,
-        //   onChanged: (value) {},
-        //   activeColor: Colors.pink,
-        //   inactiveColor: Colors.white24,
-        // ),
-      ],
-    );
+  Widget _buildLeftMenu() {
+    return Column(children: [
+      const SizedBox(height: 100),
+      menuText("Favourites", "Favourites"),
+      const SizedBox(height: 20),
+      menuText("Devotional", "Devotional"),
+      const SizedBox(height: 20),
+      menuText("English", "English"),
+      const SizedBox(height: 20),
+      menuText("Hindi", "Hindi"),
+      const SizedBox(height: 20),
+      menuText("Tamil", "Tamil"),
+      const SizedBox(height: 20),
+      _buildOnlineOfflineIcon(),
+      const SizedBox(height: 100),
+      rotatedText("Live Radio"),
+      const SizedBox(height: 25),
+      rotatedLogo(),
+    ]);
   }
 
   Future<void> _loadFavourites() async {
@@ -325,13 +258,11 @@ class _RadioPlayerState extends State<RadioPlayer>
       setState(() {
         // Handle the station being offline
         // For example, show a message or update the UI
-        print('${station.name} seems offline');
         showToast('${station.name} seems offline');
       });
     } else {
       setState(() {
         // Handle the station being online
-        print('${station.name} seems online');
         showToast('${station.name} seems online');
       });
     }
@@ -362,90 +293,6 @@ class _RadioPlayerState extends State<RadioPlayer>
         .indexWhere((station) => station.name == stationName);
   }
 
-  Widget _buildHeader() {
-    return const Text('Online FM Radio Player',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 18,
-          color: Colors.white,
-        ));
-  }
-
-  Widget _buildStationImage(RadioProvider provider) {
-    return Container(
-      height: 200,
-      width: 300,
-      color: Colors.transparent,
-      child: Consumer<RadioProvider>(builder: ((context, value, child) {
-        artists = '';
-        var photoURL = value.station.photoURL == ''
-            ? Image.asset('assets/radio.png',
-                width: 30, height: 30, fit: BoxFit.cover)
-            : Image.asset(value.station.photoURL,
-                cacheWidth: 150,
-                cacheHeight: 150,
-                width: 50,
-                height: 50,
-                fit: BoxFit.contain);
-        return photoURL;
-      })),
-    );
-  }
-
-  Widget _buildStationArtwork() {
-    return Container(
-      height: 200,
-      width: 300,
-      color: Colors.transparent,
-      child: FutureBuilder(
-        future: RadioApi.player.getArtworkImage(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          Image artwork;
-          if (snapshot.hasData) {
-            artwork = snapshot.data;
-          } else {
-            artwork = Image.asset(
-              'assets/radio.png',
-              fit: BoxFit.cover,
-            );
-          }
-          return Container(
-            height: 180,
-            width: 180,
-            child: ClipRRect(
-              child: artwork,
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildStationName(RadioProvider provider) {
-    return Text(
-      provider.station.name,
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-      ),
-    );
-  }
-
-  Widget _buildScrollingArtistsInfo() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: TextScroll(
-        artists,
-        velocity: const Velocity(pixelsPerSecond: Offset(25, 0)),
-        delayBefore: const Duration(milliseconds: 500),
-        pauseBetween: const Duration(milliseconds: 50),
-        style: const TextStyle(color: Colors.white),
-        selectable: true,
-      ),
-    );
-  }
-
   Widget _buildControlButtons(List<RadioStation> filteredStations,
       int currentIndex, int totalStations, RadioProvider provider) {
     return Row(
@@ -460,28 +307,6 @@ class _RadioPlayerState extends State<RadioPlayer>
         // _buildVolumeIconButton(),
         // _buildOnlineOfflineIcon(),
       ],
-    );
-  }
-
-  IconButton _buildListIconButton() {
-    return IconButton(
-      onPressed: () {
-        setState(() {
-          listEnabled = !listEnabled;
-        });
-        switch (animationController.status) {
-          case AnimationStatus.dismissed:
-            animationController.forward();
-            break;
-          case AnimationStatus.completed:
-            animationController.reverse();
-            break;
-          default:
-        }
-      },
-      color: listEnabled ? Colors.amber : Colors.white,
-      iconSize: 20,
-      icon: const Icon(Icons.list),
     );
   }
 
@@ -567,11 +392,17 @@ class _RadioPlayerState extends State<RadioPlayer>
                 : 'assets/online.png',
             width: 20,
             height: 20,
-            color: Colors.white,
+            color: connectivityResult == ConnectivityResult.none
+                ? Colors.red
+                : Colors.green,
             fit: BoxFit.cover),
         Text(
           connectivityResult == ConnectivityResult.none ? 'Offline' : 'Online',
-          style: const TextStyle(fontSize: 7, color: Colors.white),
+          style: TextStyle(
+              fontSize: 7,
+              color: connectivityResult == ConnectivityResult.none
+                  ? Colors.red
+                  : Colors.green),
         )
       ],
     );
@@ -598,194 +429,12 @@ class _RadioPlayerState extends State<RadioPlayer>
     );
   }
 
-  Widget _buildRadioList(BuildContext context, var _tapPosition, var overlay) {
-    return SlideTransition(
-      position: radioListOffset,
-      child: Container(
-        height: 300,
-        width: double.infinity,
-        decoration: const BoxDecoration(
-            color: Colors.white54,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 10, top: 20),
-              child: Row(
-                // mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Radio List',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  GestureDetector(
-                    onTapDown: (details) {
-                      _storePosition(details);
-                      _showMenu(context, details.globalPosition);
-                    },
-                    child: const Icon(
-                      Icons.filter_alt,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Text(
-                    isFavourites == 'Y' ? 'Favourites' : filteredLang,
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.normal),
-                  ),
-                ),
-              ],
-            ),
-            const Divider(
-              color: Colors.black,
-              indent: 5,
-              endIndent: 5,
-              thickness: 1,
-              height: 5,
-            ),
-            Expanded(
-                flex: 1,
-                child: RadioList(
-                  language: filteredLang,
-                  favourites: isFavourites,
-                )),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showMenu(BuildContext context, Offset position) {
-    final overlay = Overlay.of(context);
-    if (overlay != null) {
-      final screenWidth = MediaQuery.of(context).size.width;
-      final screenHeight = MediaQuery.of(context).size.height;
-      showMenu(
-          context: context,
-          position: RelativeRect.fromRect(
-            Rect.fromLTWH(position.dx, position.dy, 40, 40),
-            Rect.fromLTWH(0, 0, screenWidth, screenHeight),
-          ),
-          items: <PopupMenuEntry>[
-            const PopupMenuItem(
-              height: 30,
-              value: 'Favourites',
-              child: SizedBox(
-                height: 22,
-                child: Row(
-                  children: [
-                    Text('Favourites'),
-                  ],
-                ),
-              ),
-            ),
-            const PopupMenuDivider(
-              height: 3,
-            ),
-            const PopupMenuItem(
-              height: 30,
-              value: 'Devotional',
-              child: SizedBox(
-                height: 22,
-                child: Row(
-                  children: [
-                    Text('Devotional'),
-                  ],
-                ),
-              ),
-            ),
-            const PopupMenuItem(
-              height: 30,
-              value: 'English',
-              child: SizedBox(
-                height: 22,
-                child: Row(
-                  children: [
-                    Text('English'),
-                  ],
-                ),
-              ),
-            ),
-            const PopupMenuItem(
-              height: 30,
-              value: 'Hindi',
-              child: SizedBox(
-                height: 22,
-                child: Row(
-                  children: [
-                    Text('Hindi'),
-                  ],
-                ),
-              ),
-            ),
-            const PopupMenuItem(
-              height: 30,
-              value: 'Tamil',
-              child: SizedBox(
-                height: 22,
-                child: Row(
-                  children: [
-                    Text('Tamil'),
-                  ],
-                ),
-              ),
-            ),
-          ]).then((value) {
-        if (value == 'Favourites') {
-          isFavourites = 'Y';
-        } else {
-          filteredLang = value;
-        }
-        _storePosition;
-      });
-    } else {
-      print('Error: overlay is null');
-    }
-  }
-
-  Widget _buildFooter() {
-    return Container(
-      decoration: const BoxDecoration(
-        backgroundBlendMode: BlendMode.clear,
-        color: Colors.black,
-      ),
-      child: const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            TextScroll(
-              'Online FM Radio Player By Kumar Sundaram',
-              mode: TextScrollMode.bouncing,
-              velocity: Velocity(pixelsPerSecond: Offset(25, 0)),
-              delayBefore: Duration(milliseconds: 500),
-              pauseBetween: Duration(milliseconds: 50),
-              style: TextStyle(
-                backgroundColor: Colors.black,
-                color: Colors.white,
-              ),
-              selectable: true,
-            ),
-          ]),
-    );
-  }
-
   // Rotated Text for Sidebar
   Widget menuText(String text, String value, {bool isSelected = false}) {
+    isSelected = isFavourites == 'Y' ? true : filteredLang == value;
     SharedPrefsApi.getFilter().then((filter) {
       isSelected = isFavourites == 'Y' ? true : filteredLang == value;
     });
-    isSelected = isFavourites == 'Y' ? true : filteredLang == value;
-
     return GestureDetector(
       onTapDown: (details) {
         filterName = value;
@@ -795,7 +444,7 @@ class _RadioPlayerState extends State<RadioPlayer>
             isFavourites = 'Y';
           } else {
             filteredLang = value;
-            isFavourites = 'N';
+            // isFavourites = 'N';
           }
         });
       },
@@ -805,8 +454,8 @@ class _RadioPlayerState extends State<RadioPlayer>
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: Text(
             text,
-            style: TextStyle(
-              fontSize: 16,
+            style: GoogleFonts.montserrat(
+              fontSize: 14,
               color: isSelected ? Colors.white : Colors.grey,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
@@ -822,14 +471,22 @@ class _RadioPlayerState extends State<RadioPlayer>
       quarterTurns: -1,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontSize: 24,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        child: Text(text,
+            style: GoogleFonts.aclonica(
+              fontSize: 20,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            )),
+      ),
+    );
+  }
+
+  Widget rotatedLogo() {
+    return RotatedBox(
+      quarterTurns: -1,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: Image.asset('assets/radio.png', width: 40),
       ),
     );
   }

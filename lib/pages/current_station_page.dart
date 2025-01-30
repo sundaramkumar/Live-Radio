@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:live_radio/apis/radio_api.dart';
 import 'package:live_radio/apis/shared_prefs_api.dart';
@@ -96,9 +96,9 @@ class _CurrentStationPageState extends State<CurrentStationPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 "Playing Now",
-                style: TextStyle(
+                style: GoogleFonts.aclonica(
                     fontSize: 24,
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
@@ -108,12 +108,14 @@ class _CurrentStationPageState extends State<CurrentStationPage> {
               const SizedBox(height: 20),
               Text(
                 station.name,
-                style: const TextStyle(fontSize: 18, color: Colors.white),
+                style:
+                    GoogleFonts.montserrat(fontSize: 18, color: Colors.white),
               ),
               const SizedBox(height: 20),
               Text(
                 station.language,
-                style: const TextStyle(fontSize: 18, color: Colors.white),
+                style:
+                    GoogleFonts.montserrat(fontSize: 18, color: Colors.white),
               ),
               const SizedBox(height: 20),
               // Image.network(station.photoURL),
@@ -123,15 +125,18 @@ class _CurrentStationPageState extends State<CurrentStationPage> {
               _buildVolumeSlider(),
               const SizedBox(height: 20),
               _buildFavouritesSection(context, station),
-              TextScroll(
-                'Stream URL: ${station.streamURL}',
-                style: const TextStyle(fontSize: 14, color: Colors.white),
-                velocity: const Velocity(pixelsPerSecond: Offset(25, 0)),
-                delayBefore: const Duration(milliseconds: 500),
-                pauseBetween: const Duration(milliseconds: 50),
-                fadeBorderSide: FadeBorderSide.both,
-                selectable: true,
-              ),
+              const SizedBox(height: 20),
+              _buildFooter(),
+              // if you want to display the stream URL
+              // TextScroll(
+              //   'Stream URL: ${station.streamURL}',
+              //   style: const TextStyle(fontSize: 14, color: Colors.white),
+              //   velocity: const Velocity(pixelsPerSecond: Offset(25, 0)),
+              //   delayBefore: const Duration(milliseconds: 500),
+              //   pauseBetween: const Duration(milliseconds: 50),
+              //   fadeBorderSide: FadeBorderSide.both,
+              //   selectable: true,
+              // ),
             ],
           ),
         ),
@@ -191,7 +196,6 @@ class _CurrentStationPageState extends State<CurrentStationPage> {
 
   Widget _buildFavouritesSection(BuildContext context, station) {
     if (favouritesList.contains(station.name)) {
-      print('favouritesList is ---> : $favouritesList');
       return TextButton(
           onPressed: () {
             setState(() {
@@ -218,5 +222,28 @@ class _CurrentStationPageState extends State<CurrentStationPage> {
             style: TextStyle(fontSize: 16, color: Colors.white),
           ));
     }
+  }
+
+  Widget _buildFooter() {
+    return Container(
+      decoration: const BoxDecoration(
+        backgroundBlendMode: BlendMode.clear,
+        color: Colors.black,
+      ),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        TextScroll(
+          'Live Radio Player By Kumar Sundaram',
+          mode: TextScrollMode.bouncing,
+          velocity: const Velocity(pixelsPerSecond: Offset(25, 0)),
+          delayBefore: const Duration(milliseconds: 500),
+          pauseBetween: const Duration(milliseconds: 50),
+          style: GoogleFonts.montserrat(fontSize: 14).copyWith(
+            backgroundColor: Colors.black,
+            color: Colors.white,
+          ),
+          selectable: true,
+        ),
+      ]),
+    );
   }
 }

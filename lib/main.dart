@@ -6,6 +6,8 @@ import 'package:live_radio/pages/home_page.dart';
 import 'package:live_radio/providers/radio_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'pages/splash_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final radioStation = await SharedPrefsApi.getInitialRadioStation();
@@ -29,7 +31,7 @@ class LiveRadio extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Live Radio',
         theme: ThemeData(primarySwatch: Colors.blue),
-        home: const HomePage(),
+        home: SplashScreen(),
       ),
     );
   }

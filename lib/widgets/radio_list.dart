@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:live_radio/apis/radio_api.dart';
 import 'package:live_radio/apis/shared_prefs_api.dart';
 import 'package:live_radio/models/radio_station_model.dart';
@@ -98,7 +99,7 @@ class _RadioListState extends State<RadioList> {
         width: 100,
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey, width: 1), // add this line
+            border: Border.all(color: Colors.grey, width: 1),
             color: isSelected ? Colors.pinkAccent : Color(0x0032324E),
             borderRadius: BorderRadius.circular(12),
           ),
@@ -139,7 +140,6 @@ class _RadioListState extends State<RadioList> {
           // print(SharedPrefsApi.filterStations('English'));
           await RadioApi.changeStation(station);
           _onStationTapped(context, station);
-
           setState(() {
             selectedStation = station;
           });
@@ -149,17 +149,36 @@ class _RadioListState extends State<RadioList> {
           width: 100,
           child: Container(
             decoration: BoxDecoration(
-              border:
-                  Border.all(color: Colors.blue, width: 0.5), // add this line
-              color: isSelected ? Colors.pinkAccent : Color(0x0032324E),
+              border: Border.all(color: Colors.blue, width: 0.5),
+              // isSelected, set the color
+              // color: isSelected ? Colors.pinkAccent : Color(0x0032324E),
               borderRadius: BorderRadius.circular(12),
+              // or set the image if isSelected
+              image: isSelected
+                  ? const DecorationImage(
+                      image: AssetImage('assets/eqbg.gif'),
+                      fit: BoxFit.fill,
+                    )
+                  : null,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  child: photoURL,
+                Text(station.name,
+                    style: GoogleFonts.montserrat(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.normal,
+                    )),
+                // or show the equalizer if isSelected
+                // isSelected
+                //     ? _cardEqualizer()
+                //     :
+                const SizedBox(
+                  width: 75,
+                  height: 35,
                 ),
+                _buildStationWave()
               ],
             ),
           ),
@@ -174,6 +193,24 @@ class _RadioListState extends State<RadioList> {
       context,
       MaterialPageRoute(builder: (context) => CurrentStationPage()),
     );
+  }
+
+  Widget _cardEqualizer() {
+    return Image.asset('assets/equalizerwave.gif',
+        width: 75, height: 35, fit: BoxFit.fill);
+  }
+
+  Image _buildStationWave() {
+    List<String> waves = [
+      'assets/bluewave.png',
+      'assets/greenwave.png',
+      'assets/purplewave.png',
+      'assets/yellowwave.png',
+      'assets/redwave.png'
+    ];
+    waves.shuffle();
+
+    return Image.asset(waves[0], width: 94, height: 23, fit: BoxFit.fill);
   }
 
   Widget _buildLanguageStation(BuildContext context, RadioStation station,
@@ -219,43 +256,6 @@ class _RadioListState extends State<RadioList> {
         )
       ]),
       child: radioStationCard(context, station, isSelected, photoURL),
-    );
-  }
-
-  // Widget _buildSlidableList(
-  //     BuildContext context, isSelected, station, photoURL) {
-
-  // }
-
-  Widget _buildStationList(
-      BuildContext context, isSelected, station, photoURL) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: isSelected
-            ? const LinearGradient(colors: [Colors.pink, Colors.deepPurple])
-            : null,
-      ),
-      child: ListTile(
-        leading: photoURL,
-        horizontalTitleGap: 20,
-        title: Text(
-          station.name,
-          style: TextStyle(
-            color: isSelected ? Colors.white : Colors.black,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-          ),
-        ),
-        onTap: () async {
-          provider.setRadioStation(station);
-          SharedPrefsApi.setStation(station);
-          SharedPrefsApi.currentStation = station.name;
-          // print(SharedPrefsApi.filterStations('English'));
-          await RadioApi.changeStation(station);
-          setState(() {
-            selectedStation = station;
-          });
-        },
-      ),
     );
   }
 

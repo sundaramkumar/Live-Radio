@@ -91,13 +91,11 @@ class SharedPrefsApi {
     final sharedPrefs = await SharedPreferences.getInstance();
     selectedFilter = filterName;
     sharedPrefs.setString(_filterKey, filterName);
-    print('filterName is $filterName');
   }
 
   static Future<String> getFilter() async {
     final sharedPrefs = await SharedPreferences.getInstance();
 
     return sharedPrefs.getString(_filterKey).toString();
-    // print('selectedLanguage is $selectedLanguage');
   }
 }
