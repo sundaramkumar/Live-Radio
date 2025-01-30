@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:volume_controller/volume_controller.dart';
 import '../providers/radio_provider.dart';
+import '../providers/volume.provider.dart';
 
 class CurrentStationPage extends StatefulWidget {
   @override
@@ -160,17 +161,30 @@ class _CurrentStationPageState extends State<CurrentStationPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Slider(
-          value: _volumeValue,
-          onChanged: (value) {
-            _volumeController.showSystemUI = false;
-            _volumeController.setVolume(value);
+        Consumer<VolumeProvider>(
+          builder: (context, volumeProvider, child) {
+            return Row(
+              children: [
+                Text(
+                  '${(volumeProvider.volume * 100).round()}%',
+                  style:
+                      GoogleFonts.montserrat(fontSize: 16, color: Colors.white),
+                ),
+                Slider(
+                  value: volumeProvider.volume,
+                  min: 0,
+                  max: 1,
+                  activeColor: Colors.pink,
+                  inactiveColor: Colors.white24,
+                  onChanged: (value) {
+                    volumeProvider.setVolume(value);
+                    _volumeController.showSystemUI = false;
+                    _volumeController.setVolume(value);
+                  },
+                ),
+              ],
+            );
           },
-          min: 0,
-          max: 1,
-          divisions: 10,
-          activeColor: Colors.pink,
-          inactiveColor: Colors.white24,
         ),
         _buildVolumeIconButton(),
       ],
@@ -188,7 +202,7 @@ class _CurrentStationPageState extends State<CurrentStationPage> {
           isMuted = !isMuted;
         });
       },
-      color: Colors.white,
+      color: isMuted ? Colors.red : Colors.white,
       iconSize: 20,
       icon: Icon(isMuted ? Icons.volume_off : Icons.volume_up),
     );

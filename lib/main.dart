@@ -7,6 +7,7 @@ import 'package:live_radio/providers/radio_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/splash_screen.dart';
+import 'providers/volume.provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,7 @@ class LiveRadio extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => VolumeProvider()),
         ChangeNotifierProvider(
             create: ((context) => RadioProvider(initialStation))),
       ],
