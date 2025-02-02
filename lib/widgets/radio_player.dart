@@ -239,7 +239,7 @@ class _RadioPlayerState extends State<RadioPlayer>
       menuText("Tamil", "Tamil"),
       const SizedBox(height: 20),
       _buildOnlineOfflineIcon(),
-      const SizedBox(height: 100),
+      const SizedBox(height: 80),
       rotatedText("Live Radio"),
       const SizedBox(height: 25),
       rotatedLogo(),
@@ -395,7 +395,7 @@ class _RadioPlayerState extends State<RadioPlayer>
             height: 20,
             color: connectivityResult == ConnectivityResult.none
                 ? Colors.red
-                : const Color.fromARGB(255, 114, 224, 238),
+                : Colors.cyanAccent,
             fit: BoxFit.cover),
         Text(
           connectivityResult == ConnectivityResult.none ? 'Offline' : 'Online',
@@ -403,7 +403,7 @@ class _RadioPlayerState extends State<RadioPlayer>
               fontSize: 7,
               color: connectivityResult == ConnectivityResult.none
                   ? Colors.red
-                  : const Color.fromARGB(255, 114, 224, 238)),
+                  : Colors.cyanAccent),
         )
       ],
     );
@@ -438,18 +438,6 @@ class _RadioPlayerState extends State<RadioPlayer>
             );
           },
         ),
-        // Slider(
-        //   value: _volumeValue,
-        //   onChanged: (value) {
-        //     _volumeController.showSystemUI = false;
-        //     _volumeController.setVolume(value);
-        //   },
-        //   min: 0,
-        //   max: 1,
-        //   divisions: 10,
-        //   activeColor: Colors.pink,
-        //   inactiveColor: Colors.white24,
-        // ),
         _buildVolumeIconButton(),
       ],
     );
@@ -457,9 +445,19 @@ class _RadioPlayerState extends State<RadioPlayer>
 
   // Rotated Text for Sidebar
   Widget menuText(String text, String value, {bool isSelected = false}) {
-    isSelected = isFavourites == 'Y' ? true : filteredLang == value;
+    // when the "Favourites" menu is selected, set isSelected to true only for the "Favourites" menu,
+    // and false for the other menus.
+    bool isFavouritesSelected = isFavourites == 'Y';
+
+    if (isFavouritesSelected) {
+      isSelected = value == 'Favourites';
+    } else {
+      isSelected = value == filteredLang;
+    }
+
     SharedPrefsApi.getFilter().then((filter) {
-      isSelected = isFavourites == 'Y' ? true : filteredLang == value;
+      isSelected =
+          isFavouritesSelected ? value == 'Favourites' : value == filteredLang;
     });
     return GestureDetector(
       onTapDown: (details) {

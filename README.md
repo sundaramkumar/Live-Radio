@@ -3,36 +3,38 @@
 This Flutter app plays live radio stations available online. It's a simple to use app with a list of popular radio stations. You can click on the radio station to play it. The app also supports playing the radio station in the background. The app is written in Dart and uses the Flutter framework. You can add your own online radios available.
 The app is available in both Android and iOS platforms.
 
+Completely rewritten the UI based on the free Figma UI Kit https://dribbble.com/shots/14402323-Radio-App-Concept
+
 ## Screenshots
 
 Here are some screenshots of the Live Radio app:
 
 ### Home Screen
 
-<img src="screenshots/home_screen.jpg" width="150" height=300>
+<img src="screenshots/homescreen.jpg" width="150" height=300>
 
 ### Radio Station List
 
-<img src="screenshots/radio_station_list.jpg" width="150" height=300>
+<img src="screenshots/Stations.jpg" width="150" height=300>
 
-### Radio Station List Filter
+### Radio Station List Filter by Language
 
-<img src="screenshots/radio_station_list_filter.jpg" width="150" height=300>
+<img src="screenshots/languagefilters.jpg" width="150" height=300>
 
-### Radio Station List Favourite
+### Currently playing Stations
 
-<img src="screenshots/radio_station_list_favourites.jpg" width="150" height=300>
+<img src="screenshots/currentstation.jpg" width="150" height=300>
 
-### Player Screen
+### Station Playing
 
-<img src="screenshots/player_screen.jpg" width="150" height=300>
+<img src="screenshots/stationplaying.jpg" width="150" height=300>
 
 # Download the APK
 
 Download the APK if you want to test, explore the app
 
 - [Download APK](release/app-release.apk)
-- [SHA1 Hash] 27f824082cd655afd4da68a8f67ba4517b163678
+- [SHA1] 3c8275f3dacd508ff2a8c95136c70105ce38ef28
 
 ## Getting Started
 
@@ -112,12 +114,13 @@ Follow these steps to build and run the Live Radio app on your local machine:
 - [Android Studio Documentation](https://developer.android.com/studio/intro)
 - [Xcode Documentation](https://developer.apple.com/documentation/xcode)
 
-## TODO
+## sample Figma UI Kits for Ref
 
 - ui kits https://www.uxcrush.com/figma-mobile-templates/
 - sample screens here https://codecanyon.net/item/radiobox-online-radio-app-ui-kit-in-flutter/31876551?_gl=1*glekjt*_gcl_au*MTM0NjEyODM4Ni4xNzM4MDU5MTM1*_ga*MTY0MzcwMDUyNy4xNzM4MDU5MTMy*_ga_ZKBVC1X78F*MTczODA1OTEzNS4xLjEuMTczODA1OTE4Ni45LjAuMA..&_ga=2.21069051.1199469062.1738059132-1643700527.1738059132
 
-- better layout as like this https://dribbble.com/shots/14402323-Radio-App-Concept
+## TODO
+
 - fetch artwork from player api
 - better ui
 - border radius for radio station image

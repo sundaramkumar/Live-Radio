@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collection/collection.dart';
 
@@ -12,6 +14,12 @@ class SharedPrefsApi {
   static String currentStation = '';
   static String selectedLanguage = 'Tamil';
   static String selectedFilter = 'Favourites';
+
+  static Stream<List<String>> get favouritesStream =>
+      _favouritesStreamController.stream;
+
+  static final StreamController<List<String>> _favouritesStreamController =
+      StreamController<List<String>>.broadcast();
 
   static Future<RadioStation> getInitialRadioStation() async {
     final sharedPrefs = await SharedPreferences.getInstance();
@@ -64,6 +72,7 @@ class SharedPrefsApi {
     if (!favouritesList.contains(station.name)) {
       favouritesList.add(station.name);
       sharedPrefs.setStringList(_favouriteKey, favouritesList);
+      _favouritesStreamController.add(favouritesList);
     }
   }
 
@@ -76,14 +85,23 @@ class SharedPrefsApi {
     if (favouritesList.contains(station.name)) {
       favouritesList.remove(station.name);
       sharedPrefs.setStringList(_favouriteKey, favouritesList);
+      _favouritesStreamController.add(favouritesList);
     }
     // }
   }
 
+  // static Future<List<String>> getFavourites() async {
+  //   final sharedPrefs = await SharedPreferences.getInstance();
+  //   List<String> favouritesList = [];
+  //   favouritesList = sharedPrefs.getStringList(_favouriteKey) ?? [];
+  //   return favouritesList;
+  // }
   static Future<List<String>> getFavourites() async {
+    print('Getting favourites...');
     final sharedPrefs = await SharedPreferences.getInstance();
     List<String> favouritesList = [];
     favouritesList = sharedPrefs.getStringList(_favouriteKey) ?? [];
+    print('Favourites: $favouritesList');
     return favouritesList;
   }
 

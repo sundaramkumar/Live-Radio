@@ -93,41 +93,62 @@ class _RadioListState extends State<RadioList> {
 
   Widget _buildFavouriteStation(BuildContext context, RadioStation station,
       bool isSelected, Image photoURL) {
-    if (favouritesList.any((e) => e.toString().contains(station.name))) {
-      return SizedBox(
-        height: 100,
-        width: 100,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey, width: 1),
-            color: isSelected ? Colors.pinkAccent : Color(0x0032324E),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              InkWell(
-                onTap: () async {
-                  provider.setRadioStation(station);
-                  SharedPrefsApi.setStation(station);
-                  SharedPrefsApi.currentStation = station.name;
-                  // print(SharedPrefsApi.filterStations('English'));
-                  await RadioApi.changeStation(station);
-                  setState(() {
-                    selectedStation = station;
-                  });
-                },
-                child: Container(
-                  child: photoURL,
+    // if (favouritesList.any((e) => e.toString().contains(station.name))) {
+    return InkWell(
+        onTap: () async {
+          provider.setRadioStation(station);
+          SharedPrefsApi.setStation(station);
+          SharedPrefsApi.currentStation = station.name;
+          // print(SharedPrefsApi.filterStations('English'));
+          await RadioApi.changeStation(station);
+          _onStationTapped(context, station);
+          setState(() {
+            selectedStation = station;
+          });
+        },
+        child: SizedBox(
+          height: 100,
+          width: 100,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.blue, width: 0.5),
+              // isSelected, set the color
+              // color: isSelected ? Colors.pinkAccent : Color(0x0032324E),
+              borderRadius: BorderRadius.circular(12),
+              // or set the image if isSelected
+              image: isSelected
+                  ? const DecorationImage(
+                      image: AssetImage('assets/eqbg.gif'),
+                      fit: BoxFit.fill,
+                    )
+                  : null,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(station.name,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.montserrat(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.normal,
+                    )),
+                // or show the equalizer if isSelected
+                // isSelected
+                //     ? _cardEqualizer()
+                //     :
+                const SizedBox(
+                  width: 75,
+                  height: 35,
                 ),
-              ),
-            ],
+                _buildStationWave()
+              ],
+            ),
           ),
-        ),
-      );
-    } else {
-      return const SizedBox.shrink();
-    }
+        ));
+    // } else {
+    //   return const SizedBox.shrink();
+    // }
   }
 
   Widget radioStationCard(BuildContext context, RadioStation station,
@@ -165,6 +186,7 @@ class _RadioListState extends State<RadioList> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(station.name,
+                    textAlign: TextAlign.center,
                     style: GoogleFonts.montserrat(
                       color: Colors.white,
                       fontSize: 10,
@@ -258,6 +280,4 @@ class _RadioListState extends State<RadioList> {
       child: radioStationCard(context, station, isSelected, photoURL),
     );
   }
-
-  // Your operation code
 }
