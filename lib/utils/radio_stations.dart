@@ -309,6 +309,31 @@ class RadioStations {
       streamURL: 'https://www.liveradio.es/http://listen.shoutcast.com/bakthi',
       photoURL: 'assets/bakthi-fm.jpg',
     ),
+    RadioStation(
+      name: 'NDTV',
+      language: 'English',
+      streamURL:
+          'https://ndtv24x7elemarchana.akamaized.net/hls/live/2003678/ndtv24x7/ndtv24x7master.m3u8',
+      photoURL: 'assets/bakthi-fm.jpg',
+    ),
+    RadioStation(
+      name: 'CNN',
+      language: 'English',
+      streamURL: 'https://tunein.cdnstream1.com/3519_96.aac',
+      photoURL: 'assets/cnn.png',
+    ),
+    RadioStation(
+      name: 'AIR 1 Radio',
+      language: 'English',
+      streamURL: 'https://maestro.emfcdn.com/stream_for/air1/tunein/aac',
+      photoURL: 'assets/air1.png',
+    ),
+    RadioStation(
+      name: 'Vijaya FM',
+      language: 'Tamil',
+      streamURL: 'https://vijayfm-prabak78.radioca.st/stream',
+      photoURL: 'assets/vijayafm.png',
+    ),
   ];
 }
 
